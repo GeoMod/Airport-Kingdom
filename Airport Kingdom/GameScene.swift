@@ -26,17 +26,22 @@ class GameScene: SKScene {
         addChild(background)
         
         let runway = SKSpriteNode(imageNamed: "runway")
-        runway.position = CGPoint(x: 475, y: 384)
-        runway.zRotation = CGFloat(rad2deg(180))
+        runway.anchorPoint = CGPoint(x: 0, y: 0)
+        runway.position = CGPoint(x: 236, y: 180)
         runway.blendMode = .replace
         runway.zPosition = 0
         addChild(runway)
         
+        let airplane = SKSpriteNode(imageNamed: "airplane")
+        airplane.zRotation = rad2deg(-90)
+        airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
+        airplane.zPosition = 1
+        addChild(airplane)
     }
     
     
-    func rad2deg(_ number: Double) -> Double {
-        return number * 180 / .pi
+    func rad2deg(_ number: Double) -> CGFloat {
+        return CGFloat(number * 180 / .pi)
     }
     
     func touchDown(atPoint pos : CGPoint) {
