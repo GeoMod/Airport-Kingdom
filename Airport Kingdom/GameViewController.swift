@@ -11,9 +11,17 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    
+    var currentGame: GameScene!
+    
+    @IBOutlet weak var leftRightSlider: UISlider!
+    var value: Float = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // load the default values for the sliders
+        moveLeftAndRight(leftRightSlider)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -23,6 +31,8 @@ class GameViewController: UIViewController {
                 
                 // Present the scene
                 view.presentScene(scene)
+                currentGame = scene as? GameScene
+                currentGame.viewController = self
             }
             
             view.ignoresSiblingOrder = true
@@ -31,6 +41,22 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
     }
+    
+    
+    @IBAction func moveLeftAndRight(_ sender: UISlider) {
+        if currentGame != nil {
+            currentGame.posX = CGFloat(sender.value)
+//            currentGame.moveAirplane(posX: CGFloat(sender.value), posY: CGFloat(sender.value))
+        }
+    }
+    
+    @IBAction func moveUpDown(_ sender: UISlider) {
+        if currentGame != nil {
+            currentGame.posY = CGFloat(sender.value)
+        }
+    }
+    
+    
 
     override var shouldAutorotate: Bool {
         return true

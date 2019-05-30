@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,46 @@
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Airport_Kingdom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="265" minValue="0.0" maxValue="768" translatesAutoresizingMaskIntoConstraints="NO" id="QQX-Yz-qGR">
+                                <rect key="frame" x="18" y="718" width="270" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="266" id="3pU-Cq-50R"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="moveLeftAndRight:" destination="BV1-FR-VrT" eventType="valueChanged" id="Wba-z4-pcU"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="265" minValue="0.0" maxValue="1028" translatesAutoresizingMaskIntoConstraints="NO" id="h4Z-ff-OoA">
+                                <rect key="frame" x="736" y="718" width="270" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="266" id="apr-FD-VHe"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="moveUpDown:" destination="BV1-FR-VrT" eventType="valueChanged" id="I1r-Wj-meH"/>
+                                </connections>
+                            </slider>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="h4Z-ff-OoA" secondAttribute="bottom" constant="20" id="O8n-qi-Lh5"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="QQX-Yz-qGR" secondAttribute="bottom" constant="20" id="pKN-pz-jI9"/>
+                            <constraint firstItem="QQX-Yz-qGR" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="20" id="t7x-y1-iKw"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="h4Z-ff-OoA" secondAttribute="trailing" constant="20" id="uBe-tf-U2w"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <connections>
+                        <outlet property="leftRightSlider" destination="QQX-Yz-qGR" id="TPK-8d-ume"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="138.8671875" y="115.625"/>
         </scene>
     </scenes>
 </document>
