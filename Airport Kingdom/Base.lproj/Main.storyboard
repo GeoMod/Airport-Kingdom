@@ -18,15 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="265" minValue="0.0" maxValue="768" translatesAutoresizingMaskIntoConstraints="NO" id="QQX-Yz-qGR">
-                                <rect key="frame" x="18" y="718" width="270" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="266" id="3pU-Cq-50R"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="moveLeftAndRight:" destination="BV1-FR-VrT" eventType="valueChanged" id="Wba-z4-pcU"/>
-                                </connections>
-                            </slider>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="265" minValue="0.0" maxValue="1028" translatesAutoresizingMaskIntoConstraints="NO" id="h4Z-ff-OoA">
                                 <rect key="frame" x="736" y="718" width="270" height="31"/>
                                 <constraints>
@@ -40,15 +31,10 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="h4Z-ff-OoA" secondAttribute="bottom" constant="20" id="O8n-qi-Lh5"/>
-                            <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="QQX-Yz-qGR" secondAttribute="bottom" constant="20" id="pKN-pz-jI9"/>
-                            <constraint firstItem="QQX-Yz-qGR" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="20" id="t7x-y1-iKw"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="h4Z-ff-OoA" secondAttribute="trailing" constant="20" id="uBe-tf-U2w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
-                    <connections>
-                        <outlet property="leftRightSlider" destination="QQX-Yz-qGR" id="TPK-8d-ume"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>

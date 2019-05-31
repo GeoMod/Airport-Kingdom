@@ -13,7 +13,13 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var viewController: GameViewController!
+    
+    let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
+    let yoke = SKSpriteNode(imageNamed: "yoke")
     var airplane: SKSpriteNode!
+    
+    var didTouchYoke = false
+    var touchDegrees = CGFloat(0)
     
     // hacking together some airplane positions.
     var posX: CGFloat = 256.0
@@ -38,7 +44,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runway.zPosition = 0
         addChild(runway)
         
+        // Yoke Base placement
+        yokeBase.position = CGPoint(x: 160, y: 80)
+        yokeBase.blendMode = .alpha
+        yokeBase.zPosition = 0
+        addChild(yokeBase)
+        
+        // Yoke handle placement
+        yoke.position = yokeBase.position
+        yoke.blendMode = .alpha
+        yoke.zPosition = 0
+        addChild(yoke)
+        
         airplane = SKSpriteNode(imageNamed: "airplane")
+        
+        airplane.physicsBody = SKPhysicsBody(texture: airplane.texture!, size: airplane.size)
         airplane.physicsBody?.isDynamic = true
         
         airplane.zRotation = rad2deg(-90)
@@ -58,18 +78,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // This introduces a problem where if the user is also touching the throttle quadrant at the same time, both controls will be moved.
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if yokeBase.frame.contains(location) {
+                didTouchYoke = true
+            } else {
+                didTouchYoke = false
+            }
+        }
         
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let location = touch.location(in: self)
-        
-        airplane.position = location
+        if didTouchYoke {
+            for touch in touches {
+                let location = touch.location(in: self)
+                let vector = CGVector(dx: location.x - yokeBase.position.x, dy: location.y - yokeBase.position.y)
+                let angle = atan2(vector.dy, vector.dx)
+                touchDegrees = angle * CGFloat(180 / Double.pi)
+                
+                let lengthFromBase = yokeBase.frame.size.height / 2
+                
+                let xDistance = sin(angle - 1.57079633) * lengthFromBase
+                let yDistance = cos(angle - 1.57079633) * lengthFromBase
+                
+                if yokeBase.frame.contains(location) {
+                    yoke.position = location
+                } else {
+                    yoke.position = CGPoint(x: yokeBase.position.x - xDistance, y: yokeBase.position.y + yDistance)
+                }
+                // Apple pitch and roll...maybe?
+                // Think about this logic more.
+            }
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        if didTouchYoke {
+            let moveYokeToCenter = SKAction.move(to: yokeBase.position, duration: 0.1)
+            moveYokeToCenter.timingMode = .easeOut
+            yoke.run(moveYokeToCenter)
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {

@@ -14,14 +14,11 @@ class GameViewController: UIViewController {
     
     var currentGame: GameScene!
     
-    @IBOutlet weak var leftRightSlider: UISlider!
-    var value: Float = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // load the default values for the sliders
-        moveLeftAndRight(leftRightSlider)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -43,12 +40,6 @@ class GameViewController: UIViewController {
     }
     
     
-    @IBAction func moveLeftAndRight(_ sender: UISlider) {
-        if currentGame != nil {
-            currentGame.posX = CGFloat(sender.value)
-//            currentGame.moveAirplane(posX: CGFloat(sender.value), posY: CGFloat(sender.value))
-        }
-    }
     
     @IBAction func moveUpDown(_ sender: UISlider) {
         if currentGame != nil {
