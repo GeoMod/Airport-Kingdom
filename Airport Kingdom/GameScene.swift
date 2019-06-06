@@ -45,7 +45,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(runway)
         
         // Yoke Base placement
-        yokeBase.position = CGPoint(x: 160, y: 80)
+        yokeBase.position.x = yokeBase.frame.size.width / 2 + 20
+        yokeBase.position.y = yokeBase.frame.size.height / 2 + 20
         yokeBase.blendMode = .alpha
         yokeBase.zPosition = 0
         addChild(yokeBase)
@@ -61,12 +62,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         airplane.physicsBody = SKPhysicsBody(texture: airplane.texture!, size: airplane.size)
         airplane.physicsBody?.isDynamic = true
         
-        airplane.zRotation = rad2deg(-90)
+        airplane.zRotation = rad2deg(-90.5)  // -90 was orginal value
         airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
         airplane.zPosition = 1
         addChild(airplane)
     }
-    
 
     
     func rad2deg(_ number: Double) -> CGFloat {
@@ -79,7 +79,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // This introduces a problem where if the user is also touching the throttle quadrant at the same time, both controls will be moved.
-        
         for touch in touches {
             let location = touch.location(in: self)
             
@@ -110,8 +109,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else {
                     yoke.position = CGPoint(x: yokeBase.position.x - xDistance, y: yokeBase.position.y + yDistance)
                 }
-                // Apple pitch and roll...maybe?
-                // Think about this logic more.
+                
+                if xDistance < 0 {
+                    
+                    let clockwiseRotation = SKAction.rotate(byAngle: -.pi / 4, duration: 1.5)
+                    airplane.run(clockwiseRotation, withKey: "rotation")
+                } else if xDistance > 0 {
+                    
+                    let counterClockwiseRotation = SKAction.rotate(byAngle: .pi / 4, duration: 4.5)
+                    airplane.run(counterClockwiseRotation, withKey: "rotation")
+                }
+//                airplane.zRotation = rad2deg(Double(xDistance))
+                
             }
         }
     }
@@ -121,23 +130,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let moveYokeToCenter = SKAction.move(to: yokeBase.position, duration: 0.1)
             moveYokeToCenter.timingMode = .easeOut
             yoke.run(moveYokeToCenter)
+            didTouchYoke = false
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
         airplane.position.x = posX
         airplane.position.y = posY
     }
     
     
-    func moveAirplane(posX: CGFloat?, posY: CGFloat?) {
-        guard let xPosition = posX else {
-            print("No xPosition")
-            return }
-        guard let yPosition = posY else { return }
-        print("Called")
-        airplane.position.x = xPosition
-        airplane.position.y = yPosition
-    }
 }
