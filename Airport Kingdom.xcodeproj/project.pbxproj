@@ -14,6 +14,7 @@
 		1854BD8C2288E15600D580C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD8A2288E15600D580C5 /* Main.storyboard */; };
 		1854BD8E2288E15700D580C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD8D2288E15700D580C5 /* Assets.xcassets */; };
 		1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */; };
+		187329FD22A997D20066906A /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187329FC22A997D20066906A /* HelperMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		1854BD8D2288E15700D580C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1854BD902288E15700D580C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1854BD922288E15700D580C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		187329FC22A997D20066906A /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,11 +61,12 @@
 			isa = PBXGroup;
 			children = (
 				1854BD802288E15600D580C5 /* AppDelegate.swift */,
-				1854BD822288E15600D580C5 /* GameScene.sks */,
+				187329FC22A997D20066906A /* HelperMethods.swift */,
 				1854BD862288E15600D580C5 /* GameScene.swift */,
 				1854BD882288E15600D580C5 /* GameViewController.swift */,
 				1854BD8A2288E15600D580C5 /* Main.storyboard */,
 				1854BD8D2288E15700D580C5 /* Assets.xcassets */,
+				1854BD822288E15600D580C5 /* GameScene.sks */,
 				1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */,
 				1854BD922288E15700D580C5 /* Info.plist */,
 			);
@@ -144,6 +147,7 @@
 			files = (
 				1854BD872288E15600D580C5 /* GameScene.swift in Sources */,
 				1854BD892288E15600D580C5 /* GameViewController.swift in Sources */,
+				187329FD22A997D20066906A /* HelperMethods.swift in Sources */,
 				1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
