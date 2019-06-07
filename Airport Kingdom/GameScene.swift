@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     direction = float2(x: lengthOfX, y: lengthOfY)
                     direction = normalize(direction)
                     let degree = atan2(direction.x, direction.y)
-                    directionAngle = CGFloat(degree)
+                    directionAngle = -CGFloat(degree)
                 }
                 
 //                if xDistance < 0 {
@@ -135,7 +135,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                    airplane.run(counterClockwiseRotation, withKey: "rotation")
 //                }
                 airplane.zRotation = directionAngle // rad2deg(Double(xDistance))
-                
             }
         }
     }
