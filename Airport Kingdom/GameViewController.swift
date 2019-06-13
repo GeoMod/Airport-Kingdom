@@ -19,8 +19,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // load the default values for the sliders
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -34,7 +32,7 @@ class GameViewController: UIViewController {
             }
             
             view.ignoresSiblingOrder = true
-            
+
             view.showsFPS = true
             view.showsNodeCount = true
         }
@@ -49,26 +47,17 @@ class GameViewController: UIViewController {
         return vDpad
     }
     
-    
-    
     @IBAction func moveUpDown(_ sender: UISlider) {
         if currentGame != nil {
-            currentGame.posY = CGFloat(sender.value)
+            let thrustPercentage = Double(sender.value * 50)
+            let acceleration = CGVector(dx: 0, dy: thrustPercentage)
+            currentGame.apply(thrust: acceleration)
         }
     }
-    
     
 
     override var shouldAutorotate: Bool {
         return true
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
     }
 
     override var prefersStatusBarHidden: Bool {

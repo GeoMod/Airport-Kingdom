@@ -18,14 +18,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let runway = SKSpriteNode(imageNamed: "runway")
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
-    var airplane: SKSpriteNode!
+    let airplane = SKSpriteNode(imageNamed: "airplane")
     var direction = float2(0,0)
+    var directionAngle: CGFloat = 0.0 {
+        didSet {
+            if directionAngle != oldValue {
+                // action that rotates the node to an angle in radian.
+                let action = SKAction.rotate(toAngle: directionAngle, duration: 0.1, shortestUnitArc: true)
+                run(action)
+            }
+        }
+    }
     
     var didTouchYoke = false
     var touchDegrees = CGFloat(0)
     
     
-    // hacking together some airplane positions.
+    // hacking together some airplane initial positions.
     var posX: CGFloat = 256.0
     var posY: CGFloat = 256.0
     override func didMove(to view: SKView) {
@@ -59,13 +68,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.zPosition = 0
         addChild(yoke)
         
-        airplane = SKSpriteNode(imageNamed: "airplane")
-        airplane.physicsBody = SKPhysicsBody(texture: airplane.texture!, size: airplane.size)
-        airplane.physicsBody?.isDynamic = true
-        
         airplane.zRotation = rad2deg(-90.5)
         airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
         airplane.zPosition = 1
+        
+        // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
+        // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
+        airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
+        airplane.physicsBody?.mass = 1.0
+        
+        
+        airplane.physicsBody?.isDynamic = true
         addChild(airplane)
     }
 
@@ -78,12 +91,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return vDpad
     }
     
-    func touchUp(atPoint pos : CGPoint) {
+    func apply(thrust: CGVector) {
+        
+        
+        airplane.physicsBody?.applyForce(thrust)
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // This introduces a problem where if the user is also touching the throttle quadrant at the same time, both controls will be moved.
+        // This introduces a problem where if the user is also touching the throttle quadrant at the same time both controls will be moved.
         for touch in touches {
             let location = touch.location(in: self)
             
@@ -93,7 +109,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 didTouchYoke = false
             }
         }
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -125,16 +140,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let degree = atan2(direction.x, direction.y)
                     directionAngle = -CGFloat(degree)
                 }
+                airplane.zRotation = directionAngle
                 
-//                if xDistance < 0 {
-//                    let clockwiseRotation = SKAction.rotate(byAngle: -.pi / 4, duration: 1.5)
-//                    airplane.run(clockwiseRotation, withKey: "rotation")
-//                } else if xDistance > 0 {
-//
-//                    let counterClockwiseRotation = SKAction.rotate(byAngle: .pi / 4, duration: 4.5)
-//                    airplane.run(counterClockwiseRotation, withKey: "rotation")
-//                }
-                airplane.zRotation = directionAngle // rad2deg(Double(xDistance))
+                if let thrustSmoke = SKEmitterNode(fileNamed: "SmokeThrust") {
+                    thrustSmoke.position = airplane.anchorPoint
+                    airplane.addChild(thrustSmoke)
+                }
             }
         }
     }
@@ -149,23 +160,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    var directionAngle: CGFloat = 0.0 {
-        didSet {
-            if directionAngle != oldValue {
-                // action that rotates the node to an angle in radian.
-                let action = SKAction.rotate(toAngle: directionAngle, duration: 0.1)
-                run(action)
-            }
-        }
-    }
-    
-    
-    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        
-        airplane.position.x = posX
-        airplane.position.y = posY
     }
     
     

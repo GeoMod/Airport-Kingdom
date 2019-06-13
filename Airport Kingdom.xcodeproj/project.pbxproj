@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1831281422ADDFC900AC54F3 /* SmokeThrust.sks */; };
 		1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1854BD802288E15600D580C5 /* AppDelegate.swift */; };
 		1854BD832288E15600D580C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD822288E15600D580C5 /* GameScene.sks */; };
 		1854BD872288E15600D580C5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1854BD862288E15600D580C5 /* GameScene.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1831281422ADDFC900AC54F3 /* SmokeThrust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeThrust.sks; sourceTree = "<group>"; };
 		1854BD7D2288E15600D580C5 /* Airport Kingdom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Airport Kingdom.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1854BD802288E15600D580C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1854BD822288E15600D580C5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				1854BD822288E15600D580C5 /* GameScene.sks */,
 				1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */,
 				1854BD922288E15700D580C5 /* Info.plist */,
+				1831281422ADDFC900AC54F3 /* SmokeThrust.sks */,
 			);
 			path = "Airport Kingdom";
 			sourceTree = "<group>";
@@ -133,6 +136,7 @@
 			files = (
 				1854BD8C2288E15600D580C5 /* Main.storyboard in Resources */,
 				1854BD832288E15600D580C5 /* GameScene.sks in Resources */,
+				1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */,
 				1854BD8E2288E15700D580C5 /* Assets.xcassets in Resources */,
 				1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -304,7 +308,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ImpulseCoupledDevelopment.Airport-Kingdom";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -322,7 +326,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ImpulseCoupledDevelopment.Airport-Kingdom";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
