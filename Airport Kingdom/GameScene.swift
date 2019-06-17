@@ -14,12 +14,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var viewController: GameViewController!
     
-    let background = SKSpriteNode(imageNamed: "background")
-    let runway = SKSpriteNode(imageNamed: "runway")
+    let background = BackgroundNodes(imageNamed: "background")
+    let runway = BackgroundNodes(imageNamed: "runway")
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
-    var direction = float2(0,0)
+    var direction = SIMD2<Float>(x: 0, y: 0)
     var directionAngle: CGFloat = 0.0 {
         didSet {
             if directionAngle != oldValue {
@@ -44,15 +44,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func setUpGameScene() {
-        background.position = CGPoint(x: 512, y: 384)
-        background.blendMode = .replace
-        background.zPosition = -1
+        background.setUpBackground()
         addChild(background)
         
-        runway.anchorPoint = CGPoint(x: 0, y: 0)
-        runway.position = CGPoint(x: 236, y: 180)
-        runway.blendMode = .replace
-        runway.zPosition = 0
+        runway.setUpAirportEnvironment()
         addChild(runway)
         
         // Yoke Base placement
@@ -92,7 +87,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func apply(thrust: CGVector) {
-        
         
         airplane.physicsBody?.applyForce(thrust)
         
@@ -135,7 +129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let middleOfCircleY = virtualDPad().origin.y + 75
                     let lengthOfX = Float(location.x - middleOfCircleX)
                     let lengthOfY = Float(location.y - middleOfCircleY)
-                    direction = float2(x: lengthOfX, y: lengthOfY)
+                    direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
                     direction = normalize(direction)
                     let degree = atan2(direction.x, direction.y)
                     directionAngle = -CGFloat(degree)

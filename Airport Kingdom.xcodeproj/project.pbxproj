@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18173C2022B29AAC006CB553 /* BackgroundNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */; };
 		1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1831281422ADDFC900AC54F3 /* SmokeThrust.sks */; };
 		1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1854BD802288E15600D580C5 /* AppDelegate.swift */; };
 		1854BD832288E15600D580C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD822288E15600D580C5 /* GameScene.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundNodes.swift; sourceTree = "<group>"; };
 		1831281422ADDFC900AC54F3 /* SmokeThrust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeThrust.sks; sourceTree = "<group>"; };
 		1854BD7D2288E15600D580C5 /* Airport Kingdom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Airport Kingdom.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1854BD802288E15600D580C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			children = (
 				1854BD802288E15600D580C5 /* AppDelegate.swift */,
 				187329FC22A997D20066906A /* HelperMethods.swift */,
+				18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */,
 				1854BD862288E15600D580C5 /* GameScene.swift */,
 				1854BD882288E15600D580C5 /* GameViewController.swift */,
 				1854BD8A2288E15600D580C5 /* Main.storyboard */,
@@ -153,6 +156,7 @@
 				1854BD892288E15600D580C5 /* GameViewController.swift in Sources */,
 				187329FD22A997D20066906A /* HelperMethods.swift in Sources */,
 				1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */,
+				18173C2022B29AAC006CB553 /* BackgroundNodes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q332864D3;
 				INFOPLIST_FILE = "Airport Kingdom/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -319,6 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q332864D3;
 				INFOPLIST_FILE = "Airport Kingdom/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
