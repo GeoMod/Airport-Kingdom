@@ -48,11 +48,11 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func moveUpDown(_ sender: UISlider) {
-        if currentGame != nil {
-            let thrustPercentage = Double(sender.value * 50)
-            let acceleration = CGVector(dx: 0, dy: thrustPercentage)
-            currentGame.apply(thrust: acceleration)
-        }
+//        if currentGame != nil {
+//            let thrustPercentage = Double(sender.value * 50)
+//            let acceleration = CGVector(dx: 0, dy: thrustPercentage)
+//            currentGame.apply(thrust: acceleration)
+//        }
     }
     
 

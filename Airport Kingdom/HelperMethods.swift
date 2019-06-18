@@ -12,3 +12,5 @@ func rad2deg(_ number: Double) -> CGFloat {
     return CGFloat(number * 180 / .pi)
 }
 
+let degreesToRadians = CGFloat.pi / 180
+let radiansToDegrees = 180 / CGFloat.pi
