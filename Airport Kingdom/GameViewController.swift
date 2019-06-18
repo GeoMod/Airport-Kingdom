@@ -47,14 +47,6 @@ class GameViewController: UIViewController {
         return vDpad
     }
     
-    @IBAction func moveUpDown(_ sender: UISlider) {
-//        if currentGame != nil {
-//            let thrustPercentage = Double(sender.value * 50)
-//            let acceleration = CGVector(dx: 0, dy: thrustPercentage)
-//            currentGame.apply(thrust: acceleration)
-//        }
-    }
-    
 
     override var shouldAutorotate: Bool {
         return true

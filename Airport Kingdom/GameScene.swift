@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var viewController: GameViewController!
     
-    let motionManager = CMMotionManager()
+    var motionManager: CMMotionManager!
     
     let background = BackgroundNodes(imageNamed: "background")
     let runway = BackgroundNodes(imageNamed: "runway")
@@ -29,7 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var accelerometerX: UIAccelerationValue = 0
     var accelerometerY: UIAccelerationValue = 0
     var playerVelocity = CGVector(dx: 0, dy: 0)
-    
     
     var lastUpdateTime: CFTimeInterval = 0
     
@@ -54,7 +53,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         
-        startMonitoringAcceleration()
+        motionManager = CMMotionManager()
+        motionManager.startAccelerometerUpdates()
+        
         setUpGameScene()
     }
     
@@ -78,7 +79,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.zPosition = 0
         addChild(yoke)
         
-        airplane.zRotation = rad2deg(-90.5)
+
         airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
         airplane.zPosition = 1
         
@@ -97,22 +98,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lastUpdateTime = currentTime
         updatePlayerAccelerationFromMotionManager()
         updatePlayer(deltaTime)
-        
     }
     
-    func startMonitoringAcceleration() {
-        guard motionManager.isAccelerometerAvailable else { return }
-        motionManager.startAccelerometerUpdates()
-    }
-    
-    func stopMonitoringAcceleration() {
-        guard motionManager.isAccelerometerAvailable else { return }
-        motionManager.stopAccelerometerUpdates()
-    }
     
     func updatePlayerAccelerationFromMotionManager() {
         guard let acceleration = motionManager.accelerometerData?.acceleration else { return }
-        let filterFactor = 0.75
+        let filterFactor = 0.9 // 0.75
         
         accelerometerX = acceleration.x * filterFactor + accelerometerX * (1 - filterFactor)
         accelerometerY = acceleration.y * filterFactor + accelerometerY * (1 - filterFactor)
@@ -129,12 +120,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         return vDpad
     }
-    
-//    func apply(thrust: CGVector) {
-//
-//        airplane.physicsBody?.applyForce(thrust)
-//
-//    }
     
     func updatePlayer(_ dt: CFTimeInterval) {
         playerVelocity.dx = playerVelocity.dx + airplaneAcceleration.dx * CGFloat(dt)
@@ -198,7 +183,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let degree = atan2(direction.x, direction.y)
                     directionAngle = -CGFloat(degree)
                 }
-                airplane.zRotation = directionAngle
                 
                 if let thrustSmoke = SKEmitterNode(fileNamed: "SmokeThrust") {
                     thrustSmoke.position = airplane.anchorPoint
@@ -219,7 +203,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     deinit {
-        stopMonitoringAcceleration()
+        guard motionManager.isAccelerometerAvailable else { return }
+        motionManager.stopAccelerometerUpdates()
     }
     
     
