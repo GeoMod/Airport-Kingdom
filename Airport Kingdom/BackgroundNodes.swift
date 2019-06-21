@@ -17,11 +17,27 @@ class BackgroundNodes: SKSpriteNode {
         zPosition = -1
     }
     
-    func setUpAirportEnvironment() {
+    func setUpRunway() {
+        name = "runway"
         anchorPoint = CGPoint(x: 0, y: 0)
         position = CGPoint(x: 236, y: 180)
+//        physicsBody = SKPhysicsBody(
+        physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
+        physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+        physicsBody?.collisionBitMask = 0
         blendMode = .replace
         zPosition = 0
+    }
+    
+    func setUpControlTower() {
+        name = "tower"
+        position = CGPoint(x: 512, y: 384)
+        zPosition = 1
+        physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
+        physicsBody?.categoryBitMask = CollisionTypes.tower.rawValue
+        physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+        physicsBody?.collisionBitMask = 0
+        blendMode = .alpha
     }
 
 }

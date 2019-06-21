@@ -19,6 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let background = BackgroundNodes(imageNamed: "background")
     let runway = BackgroundNodes(imageNamed: "runway")
+    let tower = BackgroundNodes(imageNamed: "tower")        
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
@@ -46,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var didTouchYoke = false
     var touchDegrees = CGFloat(0)
     
-    
     // hacking together some airplane initial positions.
     var posX: CGFloat = 256.0
     var posY: CGFloat = 256.0
@@ -63,8 +63,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.setUpBackground()
         addChild(background)
         
-        runway.setUpAirportEnvironment()
+        runway.setUpRunway()
         addChild(runway)
+        
+        tower.setUpControlTower()
+        addChild(tower)
         
         // Yoke Base placement
         yokeBase.position.x = yokeBase.frame.size.width / 2 + 20
@@ -86,7 +89,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
         // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
         airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
-        airplane.physicsBody?.mass = 0
+        airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
+        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
+        airplane.physicsBody?.collisionBitMask = 0
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
         addChild(airplane)
@@ -101,6 +106,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+        
+        if nodeA == airplane {
+            playerCollided(with: nodeB)
+        } else if nodeB == airplane {
+            playerCollided(with: nodeA)
+        }
+    }
+    
+    func playerCollided(with node: SKNode) {
+        if node.name == "tower" {
+            if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
+                fireExplosion.position = airplane.position
+                addChild(fireExplosion)
+            }
+//            airplane.removeAllChildren()
+            airplane.removeFromParent()
+        }
+    }
+    
+    // MARK: - Player acceleration and Controller "d-pad"
     func updatePlayerAccelerationFromMotionManager() {
         guard let acceleration = motionManager.accelerometerData?.acceleration else { return }
         let filterFactor = 0.9 // 0.75
@@ -139,7 +167,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let angle = atan2(playerVelocity.dy, playerVelocity.dx)
         airplane.zRotation = angle - 90 * degreesToRadians
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // This introduces a problem where if the user is also touching the throttle quadrant at the same time both controls will be moved.
@@ -197,6 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let moveYokeToCenter = SKAction.move(to: yokeBase.position, duration: 0.1)
             moveYokeToCenter.timingMode = .easeOut
             yoke.run(moveYokeToCenter)
+//            airplane.removeAllChildren()
             didTouchYoke = false
         }
     }
