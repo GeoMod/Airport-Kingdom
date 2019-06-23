@@ -19,7 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let background = BackgroundNodes(imageNamed: "background")
     let runway = BackgroundNodes(imageNamed: "runway")
-    let tower = BackgroundNodes(imageNamed: "tower")        
+    let tower = BackgroundNodes(imageNamed: "tower")
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
@@ -57,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager.startAccelerometerUpdates()
         
         setUpGameScene()
+        setUpRunwayEdges()
     }
     
     func setUpGameScene() {
@@ -97,6 +98,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(airplane)
     }
     
+    func setUpRunwayEdges() {
+        let leftRunwayEdgeNode = SKSpriteNode(imageNamed: "edge1")
+        let rightRunwayEdgeNode = SKSpriteNode(imageNamed: "edge2")
+        leftRunwayEdgeNode.name = "leftRunwayEdge"
+        rightRunwayEdgeNode.name = "rightRunwayEdge"
+        
+        let trailingRunwayEdgePosition = CGPoint(x: runway.position.x + runway.size.width, y: runway.position.y * 2.4)
+        let leadingRunwayEdgePosition = CGPoint(x: runway.position.x, y: runway.position.y * 2.4)
+        
+        leftRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: leftRunwayEdgeNode.texture!, size: leftRunwayEdgeNode.size)
+        leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
+        leftRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+        leftRunwayEdgeNode.physicsBody?.collisionBitMask = 0
+        leftRunwayEdgeNode.position = leadingRunwayEdgePosition
+        addChild(leftRunwayEdgeNode)
+        
+        rightRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: rightRunwayEdgeNode.texture!, size: rightRunwayEdgeNode.size)
+        rightRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
+        rightRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+        rightRunwayEdgeNode.physicsBody?.collisionBitMask = 0
+        rightRunwayEdgeNode.position = trailingRunwayEdgePosition
+        addChild(rightRunwayEdgeNode)
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
@@ -118,12 +143,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playerCollided(with node: SKNode) {
-        if node.name == "tower" {
+        if node.name == "tower" || node.name == "leftRunwayEdge" || node.name == "rightRunwayEdge" {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
             }
-//            airplane.removeAllChildren()
             airplane.removeFromParent()
         }
     }
@@ -131,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Player acceleration and Controller "d-pad"
     func updatePlayerAccelerationFromMotionManager() {
         guard let acceleration = motionManager.accelerometerData?.acceleration else { return }
-        let filterFactor = 0.9 // 0.75
+        let filterFactor = 0.9
         
         accelerometerX = acceleration.x * filterFactor + accelerometerX * (1 - filterFactor)
         accelerometerY = acceleration.y * filterFactor + accelerometerY * (1 - filterFactor)
