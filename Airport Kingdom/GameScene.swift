@@ -82,20 +82,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.blendMode = .alpha
         yoke.zPosition = 0
         addChild(yoke)
-        
 
         airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
         airplane.zPosition = 1
         
-        // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
-        // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
-        airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
-        airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
-        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
-        airplane.physicsBody?.collisionBitMask = 0
-        airplane.physicsBody?.isDynamic = true
-        airplane.physicsBody?.linearDamping = 0.5
-        addChild(airplane)
+        addAirplane()
     }
     
     func setUpRunwayEdges() {
@@ -120,6 +111,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightRunwayEdgeNode.physicsBody?.collisionBitMask = 0
         rightRunwayEdgeNode.position = trailingRunwayEdgePosition
         addChild(rightRunwayEdgeNode)
+    }
+    
+    func addAirplane() {
+        // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
+        // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
+        airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
+        airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
+        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
+        airplane.physicsBody?.collisionBitMask = 0
+        airplane.physicsBody?.isDynamic = true
+        airplane.physicsBody?.linearDamping = 0.5
+        addChild(airplane)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -149,6 +152,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(fireExplosion)
             }
             airplane.removeFromParent()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.addAirplane()
+            }
         }
     }
     
@@ -248,7 +254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let moveYokeToCenter = SKAction.move(to: yokeBase.position, duration: 0.1)
             moveYokeToCenter.timingMode = .easeOut
             yoke.run(moveYokeToCenter)
-//            airplane.removeAllChildren()
             didTouchYoke = false
         }
     }

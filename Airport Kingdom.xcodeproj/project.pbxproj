@@ -18,6 +18,8 @@
 		1857A6A922BD47DF000E47C6 /* TowerFireExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */; };
 		187329FD22A997D20066906A /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187329FC22A997D20066906A /* HelperMethods.swift */; };
 		18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */; };
+		18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8B22C140A500858554 /* GroundImpact.sks */; };
+		18E9ED8E22C140A500858554 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8C22C140A500858554 /* Assets.xcassets */; };
 		18ED0BFC22B88D9A0063ECF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18ED0BFB22B88D9A0063ECF6 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,8 @@
 		1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TowerFireExplosion.sks; sourceTree = "<group>"; };
 		187329FC22A997D20066906A /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionTypes.swift; sourceTree = "<group>"; };
+		18E9ED8B22C140A500858554 /* GroundImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundImpact.sks; sourceTree = "<group>"; };
+		18E9ED8C22C140A500858554 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18ED0BFB22B88D9A0063ECF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,10 +83,20 @@
 				1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */,
 				18ED0BFB22B88D9A0063ECF6 /* Assets.xcassets */,
 				1854BD922288E15700D580C5 /* Info.plist */,
-				1831281422ADDFC900AC54F3 /* SmokeThrust.sks */,
-				1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */,
+				18E9ED8A22C1405E00858554 /* Particle Files */,
 			);
 			path = "Airport Kingdom";
+			sourceTree = "<group>";
+		};
+		18E9ED8A22C1405E00858554 /* Particle Files */ = {
+			isa = PBXGroup;
+			children = (
+				1831281422ADDFC900AC54F3 /* SmokeThrust.sks */,
+				1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */,
+				18E9ED8B22C140A500858554 /* GroundImpact.sks */,
+				18E9ED8C22C140A500858554 /* Assets.xcassets */,
+			);
+			path = "Particle Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,7 +161,9 @@
 				1857A6A922BD47DF000E47C6 /* TowerFireExplosion.sks in Resources */,
 				1854BD832288E15600D580C5 /* GameScene.sks in Resources */,
 				1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */,
+				18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */,
 				1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */,
+				18E9ED8E22C140A500858554 /* Assets.xcassets in Resources */,
 				18ED0BFC22B88D9A0063ECF6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
