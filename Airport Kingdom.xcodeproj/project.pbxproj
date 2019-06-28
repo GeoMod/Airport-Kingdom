@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18173C2022B29AAC006CB553 /* BackgroundNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */; };
+		18173C2022B29AAC006CB553 /* GameLevelCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18173C1F22B29AAC006CB553 /* GameLevelCreator.swift */; };
 		1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1831281422ADDFC900AC54F3 /* SmokeThrust.sks */; };
 		1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1854BD802288E15600D580C5 /* AppDelegate.swift */; };
 		1854BD832288E15600D580C5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD822288E15600D580C5 /* GameScene.sks */; };
@@ -19,12 +19,11 @@
 		187329FD22A997D20066906A /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187329FC22A997D20066906A /* HelperMethods.swift */; };
 		18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */; };
 		18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8B22C140A500858554 /* GroundImpact.sks */; };
-		18E9ED8E22C140A500858554 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8C22C140A500858554 /* Assets.xcassets */; };
 		18ED0BFC22B88D9A0063ECF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18ED0BFB22B88D9A0063ECF6 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundNodes.swift; sourceTree = "<group>"; };
+		18173C1F22B29AAC006CB553 /* GameLevelCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLevelCreator.swift; sourceTree = "<group>"; };
 		1831281422ADDFC900AC54F3 /* SmokeThrust.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SmokeThrust.sks; sourceTree = "<group>"; };
 		1854BD7D2288E15600D580C5 /* Airport Kingdom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Airport Kingdom.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1854BD802288E15600D580C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,7 +37,6 @@
 		187329FC22A997D20066906A /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionTypes.swift; sourceTree = "<group>"; };
 		18E9ED8B22C140A500858554 /* GroundImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundImpact.sks; sourceTree = "<group>"; };
-		18E9ED8C22C140A500858554 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18ED0BFB22B88D9A0063ECF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,7 +73,7 @@
 				1854BD802288E15600D580C5 /* AppDelegate.swift */,
 				18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */,
 				187329FC22A997D20066906A /* HelperMethods.swift */,
-				18173C1F22B29AAC006CB553 /* BackgroundNodes.swift */,
+				18173C1F22B29AAC006CB553 /* GameLevelCreator.swift */,
 				1854BD862288E15600D580C5 /* GameScene.swift */,
 				1854BD882288E15600D580C5 /* GameViewController.swift */,
 				1854BD8A2288E15600D580C5 /* Main.storyboard */,
@@ -94,7 +92,6 @@
 				1831281422ADDFC900AC54F3 /* SmokeThrust.sks */,
 				1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */,
 				18E9ED8B22C140A500858554 /* GroundImpact.sks */,
-				18E9ED8C22C140A500858554 /* Assets.xcassets */,
 			);
 			path = "Particle Files";
 			sourceTree = "<group>";
@@ -163,7 +160,6 @@
 				1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */,
 				18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */,
 				1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */,
-				18E9ED8E22C140A500858554 /* Assets.xcassets in Resources */,
 				18ED0BFC22B88D9A0063ECF6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,7 +176,7 @@
 				18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */,
 				187329FD22A997D20066906A /* HelperMethods.swift in Sources */,
 				1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */,
-				18173C2022B29AAC006CB553 /* BackgroundNodes.swift in Sources */,
+				18173C2022B29AAC006CB553 /* GameLevelCreator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

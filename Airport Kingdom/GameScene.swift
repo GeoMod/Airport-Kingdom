@@ -16,10 +16,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     weak var viewController: GameViewController!
     
     var motionManager: CMMotionManager!
+    var scoreLabel: SKLabelNode!
     
-    let background = BackgroundNodes(imageNamed: "background")
-    let runway = BackgroundNodes(imageNamed: "runway")
-    let tower = BackgroundNodes(imageNamed: "tower")
+    let background = GameLevelCreator(imageNamed: "background")
+    let runway = GameLevelCreator(imageNamed: "runway")
+    let tower = GameLevelCreator(imageNamed: "tower")
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
@@ -30,9 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var accelerometerX: UIAccelerationValue = 0
     var accelerometerY: UIAccelerationValue = 0
     var playerVelocity = CGVector(dx: 0, dy: 0)
-    
     var lastUpdateTime: CFTimeInterval = 0
-    
     var direction = SIMD2<Float>(x: 0, y: 0)
     var directionAngle: CGFloat = 0.0 {
         didSet {
@@ -41,6 +40,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let action = SKAction.rotate(toAngle: directionAngle, duration: 0.1, shortestUnitArc: true)
                 run(action)
             }
+        }
+    }
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
         }
     }
     
@@ -55,6 +59,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
+        
+        scoreLabel = SKLabelNode(fontNamed: "Bradley Hand")
+        scoreLabel.text = "Score: 0"
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.position = CGPoint(x: 16, y: view.frame.height - 30)
+        scoreLabel.zPosition = 2
+        addChild(scoreLabel)
         
         setUpGameScene()
         setUpRunwayEdges()
@@ -146,15 +157,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func playerCollided(with node: SKNode) {
-        if node.name == "tower" || node.name == "leftRunwayEdge" || node.name == "rightRunwayEdge" {
+        if node.name == "runway" {
+            score += 100
+            return
+        }
+        
+        if node.name == "tower" {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
+                score -= 10
             }
-            airplane.removeFromParent()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.addAirplane()
+        } else if node.name == "leftRunwayEdge" || node.name == "rightRunwayEdge" {
+            if let groundImpact = SKEmitterNode(fileNamed: "GroundImpact") {
+                groundImpact.position = airplane.position
+                addChild(groundImpact)
+                score -= 2
             }
+        }
+        airplane.removeFromParent()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.addAirplane()
         }
     }
     

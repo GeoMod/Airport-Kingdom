@@ -12,4 +12,5 @@ enum CollisionTypes: UInt32 {
     case airplane = 1
     case runwayEdge = 2
     case tower = 4
+    case runwaysurface = 6
 }
