@@ -118,8 +118,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftRunwayEdgeNode.name = "leftRunwayEdge"
         rightRunwayEdgeNode.name = "rightRunwayEdge"
         
-        let trailingRunwayEdgePosition = CGPoint(x: runway.position.x + runway.size.width, y: runway.position.y * 2.4)
-        let leadingRunwayEdgePosition = CGPoint(x: runway.position.x, y: runway.position.y * 2.4)
+        let trailingRunwayEdgePosition = CGPoint(x: runway.position.x + runway.size.width / 2, y: runway.position.y)
+        let leadingRunwayEdgePosition = CGPoint(x: runway.position.x - runway.size.width / 2, y: runway.position.y)
         
         leftRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: leftRunwayEdgeNode.texture!, size: leftRunwayEdgeNode.size)
         leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
@@ -315,10 +315,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    deinit {
-        guard motionManager.isAccelerometerAvailable else { return }
-        motionManager.stopAccelerometerUpdates()
-    }
+//    deinit {
+//        guard motionManager.isAccelerometerAvailable else { return }
+//        motionManager.stopAccelerometerUpdates()
+//    }
     
     
 }

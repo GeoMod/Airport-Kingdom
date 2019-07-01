@@ -22,16 +22,17 @@ class GameLevelCreator: SKSpriteNode {
     
     func setUpRunway() {
         name = "runway"
-        anchorPoint = CGPoint(x: 0, y: 0)
         
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: frame.size.width, height: frame.size.height))
+        physicsBody = SKPhysicsBody(texture: texture!, size: size)
         physicsBody?.categoryBitMask = CollisionTypes.runwaysurface.rawValue
         physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
         physicsBody?.isDynamic = false
         
         switch level {
         case 1:
-            position = CGPoint(x: 236, y: 180)
+            
+            
+            position = CGPoint(x: 300, y: 360)
         case 2:
             position = CGPoint(x: 736, y: 180)
         default:
