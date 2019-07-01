@@ -14,9 +14,11 @@ import CoreMotion
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var viewController: GameViewController!
+    var levelCreator = GameLevelCreator()
     
     var motionManager: CMMotionManager!
     var scoreLabel: SKLabelNode!
+    var livesLabel: SKLabelNode!
     
     let background = GameLevelCreator(imageNamed: "background")
     let runway = GameLevelCreator(imageNamed: "runway")
@@ -48,6 +50,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    var lives = 3 {
+        didSet {
+            livesLabel.text = "Lives: \(lives)"
+        }
+    }
+    
     var didTouchYoke = false
     var touchDegrees = CGFloat(0)
     
@@ -66,6 +74,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 16, y: view.frame.height - 30)
         scoreLabel.zPosition = 2
         addChild(scoreLabel)
+        
+        livesLabel = SKLabelNode(fontNamed: "Bradley Hand")
+        livesLabel.text = "Lives: 3"
+        livesLabel.horizontalAlignmentMode = .right
+        livesLabel.position = CGPoint(x: view.frame.width - 30, y: view.frame.height - 30)
+        livesLabel.zPosition = 2
+        addChild(livesLabel)
         
         setUpGameScene()
         setUpRunwayEdges()
@@ -93,9 +108,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.blendMode = .alpha
         yoke.zPosition = 0
         addChild(yoke)
-
-        airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
-        airplane.zPosition = 1
         
         addAirplane()
     }
@@ -113,6 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
         leftRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
         leftRunwayEdgeNode.physicsBody?.collisionBitMask = 0
+        leftRunwayEdgeNode.physicsBody?.isDynamic = false
         leftRunwayEdgeNode.position = leadingRunwayEdgePosition
         addChild(leftRunwayEdgeNode)
         
@@ -120,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
         rightRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
         rightRunwayEdgeNode.physicsBody?.collisionBitMask = 0
+        rightRunwayEdgeNode.physicsBody?.isDynamic = false
         rightRunwayEdgeNode.position = trailingRunwayEdgePosition
         addChild(rightRunwayEdgeNode)
     }
@@ -127,6 +141,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addAirplane() {
         // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
         // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
+        airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
+        airplane.zPosition = 1
+        
         airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
         airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
         airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
@@ -144,7 +161,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updatePlayer(deltaTime)
     }
     
-    
     func didBegin(_ contact: SKPhysicsContact) {
         guard let nodeA = contact.bodyA.node else { return }
         guard let nodeB = contact.bodyB.node else { return }
@@ -158,7 +174,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func playerCollided(with node: SKNode) {
         if node.name == "runway" {
+            // Consider making the number of points added = the number of seconds remaining on the timer
             score += 100
+            levelCreator.level += 1
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                let nextLevel = GameScene(size: self.size)
+                nextLevel.viewController = self.viewController
+                self.viewController.currentGame = nextLevel
+                
+                let transition = SKTransition.doorway(withDuration: 1.5)
+                self.view?.presentScene(nextLevel, transition: transition)
+            }
             return
         }
         
@@ -166,18 +193,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
-                score -= 10
+                score = 0
             }
         } else if node.name == "leftRunwayEdge" || node.name == "rightRunwayEdge" {
             if let groundImpact = SKEmitterNode(fileNamed: "GroundImpact") {
                 groundImpact.position = airplane.position
                 addChild(groundImpact)
-                score -= 2
+                score = 0
             }
         }
         airplane.removeFromParent()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.addAirplane()
+        if lives > 0 {
+            lives -= 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.addAirplane()
+            }
+        } else {
+            // END GAME/LEVEL
+            // Need restart button. Restart from level 1, reset points to zero for current/last level.
         }
     }
     
