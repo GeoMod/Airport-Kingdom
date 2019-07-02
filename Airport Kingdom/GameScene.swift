@@ -84,6 +84,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setUpGameScene()
         setUpRunwayEdges()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.addAirplane()
+        }
     }
     
     func setUpGameScene() {
@@ -109,7 +112,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.zPosition = 0
         addChild(yoke)
         
-        addAirplane()
     }
     
     func setUpRunwayEdges() {
@@ -124,7 +126,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         leftRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: leftRunwayEdgeNode.texture!, size: leftRunwayEdgeNode.size)
         leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
         leftRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        leftRunwayEdgeNode.physicsBody?.collisionBitMask = 0
         leftRunwayEdgeNode.physicsBody?.isDynamic = false
         leftRunwayEdgeNode.position = leadingRunwayEdgePosition
         addChild(leftRunwayEdgeNode)
@@ -132,7 +133,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: rightRunwayEdgeNode.texture!, size: rightRunwayEdgeNode.size)
         rightRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
         rightRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        rightRunwayEdgeNode.physicsBody?.collisionBitMask = 0
         rightRunwayEdgeNode.physicsBody?.isDynamic = false
         rightRunwayEdgeNode.position = trailingRunwayEdgePosition
         addChild(rightRunwayEdgeNode)
@@ -141,15 +141,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addAirplane() {
         // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
         // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
-        airplane.position = CGPoint(x: (runway.position.x + airplane.size.width) - 10, y: (runway.position.y + airplane.size.height) + 10)
-        airplane.zPosition = 1
-        
-        airplane.physicsBody = SKPhysicsBody(circleOfRadius: max(airplane.size.width / 2, airplane.size.width / 2))
+        airplane.physicsBody = SKPhysicsBody(circleOfRadius: airplane.size.width / 2)
         airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
         airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
-        airplane.physicsBody?.collisionBitMask = 0
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
+        
+        airplane.position = CGPoint(x: tower.position.x + 100, y: tower.position.y)
+        airplane.zPosition = 1
+        
         addChild(airplane)
     }
     
@@ -313,12 +313,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             didTouchYoke = false
         }
     }
-    
-    
-//    deinit {
-//        guard motionManager.isAccelerometerAvailable else { return }
-//        motionManager.stopAccelerometerUpdates()
-//    }
-    
     
 }

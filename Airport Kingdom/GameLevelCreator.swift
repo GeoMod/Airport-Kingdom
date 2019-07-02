@@ -30,13 +30,11 @@ class GameLevelCreator: SKSpriteNode {
         
         switch level {
         case 1:
-            
-            
             position = CGPoint(x: 300, y: 360)
         case 2:
-            position = CGPoint(x: 736, y: 180)
+            position = CGPoint(x: 736, y: 385)
         default:
-            position = CGPoint(x: 236, y: 180)
+            position = CGPoint(x: 300, y: 360)
         }
         blendMode = .replace
         zPosition = 0
@@ -46,10 +44,9 @@ class GameLevelCreator: SKSpriteNode {
         name = "tower"
         position = CGPoint(x: 512, y: 384)
         zPosition = 1
-        physicsBody = SKPhysicsBody(texture: self.texture!, size: size)
+        physicsBody = SKPhysicsBody(rectangleOf: size)
         physicsBody?.categoryBitMask = CollisionTypes.tower.rawValue
         physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        physicsBody?.collisionBitMask = 0
         physicsBody?.isDynamic = false
         blendMode = .alpha
     }
