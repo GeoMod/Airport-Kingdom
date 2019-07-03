@@ -25,6 +25,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
     
+    let liveTree = SKSpriteNode(imageNamed: "liveTree")
+    let treeCluster = SKSpriteNode(imageNamed: "treeCluster")
+    
     var airplaneAcceleration = CGVector(dx: 0, dy: 0)
     let maxPlayerSpeed: CGFloat = 200
     let maxPlayerAcceleration: CGFloat = 400
@@ -78,6 +81,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runway.setUpRunway()
         addChild(runway)
         
+        setUpTreeCluster()
+        setUpDeadTree()
+        setUpLiveTree()
+        
         // Yoke Base placement
         yokeBase.position.x = yokeBase.frame.size.width / 2 + 20
         yokeBase.position.y = yokeBase.frame.size.height / 2 + 20
@@ -91,6 +98,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.zPosition = 0
         addChild(yoke)
         
+    }
+    
+    func setUpTreeCluster() {
+        treeCluster.name = "treeCluster"
+        
+//        node.physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
+//        node.physicsBody?.categoryBitMask = CollisionTypes.tree.rawValue
+//        node.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+//        node.physicsBody?.collisionBitMask = 0
+//        node.physicsBody?.isDynamic = false
+        
+        let position = CGPoint(x: runway.position.x + 300, y: runway.position.y + 50)
+        treeCluster.position = position
+        treeCluster.zPosition = 0
+        
+        addChild(treeCluster)
+    }
+    
+    func setUpDeadTree() {
+        let node = SKSpriteNode(imageNamed: "deadTree")
+        node.name = "deadTree"
+        
+        // needs physics body
+        
+        let position = CGPoint(x: runway.position.x - 200, y: runway.position.y - 100)
+        node.position = position
+        node.zPosition = 0
+        
+        addChild(node)
+    }
+    
+    func setUpLiveTree() {
+        liveTree.name = "liveTree"
+        
+        // needs physics body
+        
+        let position = CGPoint(x: treeCluster.position.x - 200, y: treeCluster.position.y + 170)
+        liveTree.scale(to: CGSize(width: 90, height: 90))
+        liveTree.position = position
+        liveTree.zPosition = 0
+        
+        addChild(liveTree)
     }
     
 //    func setUpRunwayEdges() {
@@ -127,7 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
         
-        airplane.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        airplane.position = CGPoint(x: runway.position.x - 100, y: size.height / 4)
         airplane.zPosition = 1
         
         addChild(airplane)
