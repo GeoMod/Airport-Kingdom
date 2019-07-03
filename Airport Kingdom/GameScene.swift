@@ -17,12 +17,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var levelCreator = GameLevelCreator()
     
     var motionManager: CMMotionManager!
-    var scoreLabel: SKLabelNode!
-    var livesLabel: SKLabelNode!
     
-    let background = GameLevelCreator(imageNamed: "background")
+    let background = GameLevelCreator(imageNamed: "BackgroundLvl1")
     let runway = GameLevelCreator(imageNamed: "runway")
-    let tower = GameLevelCreator(imageNamed: "tower")
+//    let tower = GameLevelCreator(imageNamed: "tower")
     let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
     let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
@@ -46,13 +44,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     var score = 0 {
         didSet {
-            scoreLabel.text = "Score: \(score)"
+            viewController.scoreLabel.text = "Score: \(score)"
         }
     }
     
     var lives = 3 {
         didSet {
-            livesLabel.text = "Lives: \(lives)"
+            viewController.livesLabel.text = "Lives: \(lives)"
         }
     }
     
@@ -65,28 +63,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
         
+//        setUpRunwayEdges()
+        setUpGameScene()
+        addAirplane()
+        
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
-        
-        scoreLabel = SKLabelNode(fontNamed: "Bradley Hand")
-        scoreLabel.text = "Score: 0"
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.position = CGPoint(x: 16, y: view.frame.height - 30)
-        scoreLabel.zPosition = 2
-        addChild(scoreLabel)
-        
-        livesLabel = SKLabelNode(fontNamed: "Bradley Hand")
-        livesLabel.text = "Lives: 3"
-        livesLabel.horizontalAlignmentMode = .right
-        livesLabel.position = CGPoint(x: view.frame.width - 30, y: view.frame.height - 30)
-        livesLabel.zPosition = 2
-        addChild(livesLabel)
-        
-        setUpGameScene()
-        setUpRunwayEdges()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.addAirplane()
-        }
     }
     
     func setUpGameScene() {
@@ -95,9 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runway.setUpRunway()
         addChild(runway)
-        
-        tower.setUpControlTower()
-        addChild(tower)
         
         // Yoke Base placement
         yokeBase.position.x = yokeBase.frame.size.width / 2 + 20
@@ -114,49 +93,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func setUpRunwayEdges() {
-        let leftRunwayEdgeNode = SKSpriteNode(imageNamed: "edge1")
-        let rightRunwayEdgeNode = SKSpriteNode(imageNamed: "edge2")
-        leftRunwayEdgeNode.name = "leftRunwayEdge"
-        rightRunwayEdgeNode.name = "rightRunwayEdge"
-        
-        let trailingRunwayEdgePosition = CGPoint(x: runway.position.x + runway.size.width / 2, y: runway.position.y)
-        let leadingRunwayEdgePosition = CGPoint(x: runway.position.x - runway.size.width / 2, y: runway.position.y)
-        
-        leftRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: leftRunwayEdgeNode.texture!, size: leftRunwayEdgeNode.size)
-        leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
-        leftRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        leftRunwayEdgeNode.physicsBody?.isDynamic = false
-        leftRunwayEdgeNode.position = leadingRunwayEdgePosition
-        addChild(leftRunwayEdgeNode)
-        
-        rightRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: rightRunwayEdgeNode.texture!, size: rightRunwayEdgeNode.size)
-        rightRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
-        rightRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        rightRunwayEdgeNode.physicsBody?.isDynamic = false
-        rightRunwayEdgeNode.position = trailingRunwayEdgePosition
-        addChild(rightRunwayEdgeNode)
-    }
+//    func setUpRunwayEdges() {
+//        let leftRunwayEdgeNode = SKSpriteNode(imageNamed: "edge1")
+//        let rightRunwayEdgeNode = SKSpriteNode(imageNamed: "edge2")
+//        leftRunwayEdgeNode.name = "leftRunwayEdge"
+//        rightRunwayEdgeNode.name = "rightRunwayEdge"
+//
+//        let trailingRunwayEdgePosition = CGPoint(x: runway.position.x + runway.size.width / 2, y: runway.position.y)
+//        let leadingRunwayEdgePosition = CGPoint(x: runway.position.x - runway.size.width / 2, y: runway.position.y)
+//
+//        leftRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: leftRunwayEdgeNode.texture!, size: leftRunwayEdgeNode.size)
+//        leftRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
+//        leftRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+//        leftRunwayEdgeNode.physicsBody?.isDynamic = false
+//        leftRunwayEdgeNode.position = leadingRunwayEdgePosition
+//        addChild(leftRunwayEdgeNode)
+//
+//        rightRunwayEdgeNode.physicsBody = SKPhysicsBody(texture: rightRunwayEdgeNode.texture!, size: rightRunwayEdgeNode.size)
+//        rightRunwayEdgeNode.physicsBody?.categoryBitMask = CollisionTypes.runwayEdge.rawValue
+//        rightRunwayEdgeNode.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+//        rightRunwayEdgeNode.physicsBody?.isDynamic = false
+//        rightRunwayEdgeNode.position = trailingRunwayEdgePosition
+//        addChild(rightRunwayEdgeNode)
+//    }
     
     func addAirplane() {
         // Circular physics body offers best performance at the cost of lower precision in collision accuracy.
         // https://developer.apple.com/documentation/spritekit/sknode/getting_started_with_physics_bodies
         airplane.physicsBody = SKPhysicsBody(circleOfRadius: airplane.size.width / 2)
         airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
-        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwayEdge.rawValue | CollisionTypes.tower.rawValue
+        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwaysurface.rawValue
+        airplane.physicsBody?.collisionBitMask = 0
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
         
-        airplane.position = CGPoint(x: tower.position.x + 100, y: tower.position.y)
+        airplane.position = CGPoint(x: size.width / 2, y: size.height / 2)
         airplane.zPosition = 1
         
         addChild(airplane)
     }
     
     override func update(_ currentTime: TimeInterval) {
+//        guard motionManager != nil else { return }
         // Called before each frame is rendered
         let deltaTime = max(1.0/30, currentTime - lastUpdateTime)
         lastUpdateTime = currentTime
+        
         updatePlayerAccelerationFromMotionManager()
         updatePlayer(deltaTime)
     }
@@ -178,7 +160,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score += 100
             levelCreator.level += 1
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.scene?.removeAllChildren()
+                self.motionManager.stopAccelerometerUpdates()
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
                 self.viewController.currentGame = nextLevel

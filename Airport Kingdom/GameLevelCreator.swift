@@ -26,6 +26,7 @@ class GameLevelCreator: SKSpriteNode {
         physicsBody = SKPhysicsBody(texture: texture!, size: size)
         physicsBody?.categoryBitMask = CollisionTypes.runwaysurface.rawValue
         physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+        physicsBody?.collisionBitMask = 0
         physicsBody?.isDynamic = false
         
         switch level {
@@ -36,19 +37,19 @@ class GameLevelCreator: SKSpriteNode {
         default:
             position = CGPoint(x: 300, y: 360)
         }
-        blendMode = .replace
+        blendMode = .alpha
         zPosition = 0
     }
     
-    func setUpControlTower() {
-        name = "tower"
-        position = CGPoint(x: 512, y: 384)
-        zPosition = 1
-        physicsBody = SKPhysicsBody(rectangleOf: size)
-        physicsBody?.categoryBitMask = CollisionTypes.tower.rawValue
-        physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        physicsBody?.isDynamic = false
-        blendMode = .alpha
-    }
+//    func setUpControlTower() {
+//        name = "tower"
+//        position = CGPoint(x: 512, y: 384)
+//        zPosition = 1
+//        physicsBody = SKPhysicsBody(rectangleOf: size)
+//        physicsBody?.categoryBitMask = CollisionTypes.tower.rawValue
+//        physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
+//        physicsBody?.isDynamic = false
+//        blendMode = .alpha
+//    }
 }
 
