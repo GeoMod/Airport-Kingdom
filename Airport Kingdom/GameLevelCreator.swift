@@ -52,6 +52,5 @@ class GameLevelCreator: SKSpriteNode {
 //        blendMode = .alpha
 //    }
     
-    
 }
 

@@ -15,8 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     weak var viewController: GameViewController!
     var levelCreator = GameLevelCreator()
-    
-    var motionManager: CMMotionManager!
+    var motionManager = CMMotionManager()
     
     let background = GameLevelCreator(imageNamed: "BackgroundLvl1")
     let runway = GameLevelCreator(imageNamed: "runway")
@@ -39,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var directionAngle: CGFloat = 0.0 {
         didSet {
             if directionAngle != oldValue {
-                // action that rotates the node to an angle in radian.
+                // action that rotates the node to an angle expressed in radian.
                 let action = SKAction.rotate(toAngle: directionAngle, duration: 0.1, shortestUnitArc: true)
                 run(action)
             }
@@ -57,20 +56,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // for virtual D-pad
     var didTouchYoke = false
     var touchDegrees = CGFloat(0)
     
-    // hacking together some airplane initial positions.
+    // hacking together an airplane initial position.
     var posX: CGFloat = 256.0
     var posY: CGFloat = 256.0
+    
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
-        
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
 //        setUpRunwayEdges()
         setUpGameScene()
         addAirplane()
         
-        motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
     }
     
@@ -97,7 +97,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         yoke.blendMode = .alpha
         yoke.zPosition = 0
         addChild(yoke)
-        
     }
     
     func setUpTreeCluster() {
@@ -197,21 +196,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeB = contact.bodyB.node else { return }
         
         if nodeA == airplane {
-            playerCollided(with: nodeB)
+            playerCollided(with: nodeB as! SKSpriteNode)
         } else if nodeB == airplane {
-            playerCollided(with: nodeA)
+            playerCollided(with: nodeA as! SKSpriteNode)
         }
     }
     
-    func playerCollided(with node: SKNode) {
+    
+    func playerCollided(with node: SKSpriteNode) {
         if node.name == "runway" {
             // Consider making the number of points added = the number of seconds remaining on the timer
             score += 100
-            levelCreator.level += 1
-            
+//            levelCreator.level += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.scene?.removeAllChildren()
-                self.motionManager.stopAccelerometerUpdates()
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
                 self.viewController.currentGame = nextLevel
@@ -251,13 +248,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updatePlayerAccelerationFromMotionManager() {
         guard let acceleration = motionManager.accelerometerData?.acceleration else { return }
         let filterFactor = 0.9
-        
+
         accelerometerX = acceleration.x * filterFactor + accelerometerX * (1 - filterFactor)
         accelerometerY = acceleration.y * filterFactor + accelerometerY * (1 - filterFactor)
-        
+
         airplaneAcceleration.dx = CGFloat(accelerometerY) * -maxPlayerAcceleration
         airplaneAcceleration.dy = CGFloat(accelerometerX) * maxPlayerAcceleration
     }
+    
 
     func virtualDPad() -> CGRect {
         var vDpad = CGRect(x: 0, y: 0, width: yokeBase.frame.width, height: yokeBase.frame.height)
