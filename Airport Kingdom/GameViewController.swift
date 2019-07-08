@@ -15,6 +15,7 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var livesLabel: UILabel!
+    @IBOutlet weak var playPause: UIImageView!
     
     var currentGame: GameScene!
     

@@ -17,7 +17,7 @@
 		1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */; };
 		1857A6A922BD47DF000E47C6 /* TowerFireExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */; };
 		187329FD22A997D20066906A /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187329FC22A997D20066906A /* HelperMethods.swift */; };
-		18BEA94922CD277F0093F001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18BEA94822CD277F0093F001 /* Assets.xcassets */; };
+		18A4CC4D22D3CD6C0013155B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A4CC4C22D3CD6C0013155B /* Assets.xcassets */; };
 		18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */; };
 		18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8B22C140A500858554 /* GroundImpact.sks */; };
 /* End PBXBuildFile section */
@@ -35,7 +35,7 @@
 		1854BD922288E15700D580C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TowerFireExplosion.sks; sourceTree = "<group>"; };
 		187329FC22A997D20066906A /* HelperMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
-		18BEA94822CD277F0093F001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		18A4CC4C22D3CD6C0013155B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionTypes.swift; sourceTree = "<group>"; };
 		18E9ED8B22C140A500858554 /* GroundImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundImpact.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,8 +78,8 @@
 				1854BD882288E15600D580C5 /* GameViewController.swift */,
 				1854BD8A2288E15600D580C5 /* Main.storyboard */,
 				1854BD822288E15600D580C5 /* GameScene.sks */,
+				18A4CC4C22D3CD6C0013155B /* Assets.xcassets */,
 				1854BD8F2288E15700D580C5 /* LaunchScreen.storyboard */,
-				18BEA94822CD277F0093F001 /* Assets.xcassets */,
 				1854BD922288E15700D580C5 /* Info.plist */,
 				18E9ED8A22C1405E00858554 /* Particle Files */,
 			);
@@ -158,7 +158,7 @@
 				1857A6A922BD47DF000E47C6 /* TowerFireExplosion.sks in Resources */,
 				1854BD832288E15600D580C5 /* GameScene.sks in Resources */,
 				1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */,
-				18BEA94922CD277F0093F001 /* Assets.xcassets in Resources */,
+				18A4CC4D22D3CD6C0013155B /* Assets.xcassets in Resources */,
 				18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */,
 				1854BD912288E15700D580C5 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -325,7 +325,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q332864D3;
 				INFOPLIST_FILE = "Airport Kingdom/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -344,7 +344,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Q332864D3;
 				INFOPLIST_FILE = "Airport Kingdom/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
