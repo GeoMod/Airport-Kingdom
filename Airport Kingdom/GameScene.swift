@@ -19,9 +19,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let background = GameLevelCreator(imageNamed: "BackgroundLvl1")
     let runway = GameLevelCreator(imageNamed: "runway")
-//    let tower = GameLevelCreator(imageNamed: "tower")
-//    let yokeBase = SKSpriteNode(imageNamed: "yokeBase")
-//    let yoke = SKSpriteNode(imageNamed: "yoke")
     let airplane = SKSpriteNode(imageNamed: "airplane")
     let deadTree = SKSpriteNode(imageNamed: "deadTree")
     let treeCluster = SKSpriteNode(imageNamed: "treeCluster")
@@ -55,14 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // for virtual D-pad: Unused
-//    var didTouchYoke = false
-//    var touchDegrees = CGFloat(0)
-    
-    // hacking together an airplane initial position.
-//    var posX: CGFloat = 256.0
-//    var posY: CGFloat = 256.0
-    
     // MARK: - didMove(to:)
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -82,19 +71,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpTreeCluster()
         setUpDeadTree()
         setUpLiveTree()
-        
-        // Yoke Base placement
-//        yokeBase.position.x = yokeBase.frame.size.width / 2 + 20
-//        yokeBase.position.y = yokeBase.frame.size.height / 2 + 20
-//        yokeBase.blendMode = .alpha
-//        yokeBase.zPosition = 0
-//        addChild(yokeBase)
-        
-        // Yoke handle placement
-//        yoke.position = yokeBase.position
-//        yoke.blendMode = .alpha
-//        yoke.zPosition = 0
-//        addChild(yoke)
     }
     
     
@@ -270,77 +246,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let angle = atan2(playerVelocity.dy, playerVelocity.dx)
         airplane.zRotation = angle - 90 * degreesToRadians
     }
-    
-    
-    // MARK: - Controller "D-Pad"
-//    func virtualDPad() -> CGRect {
-//        var vDpad = CGRect(x: 0, y: 0, width: yokeBase.frame.width, height: yokeBase.frame.height)
-//
-//        vDpad.origin.x = yokeBase.position.x - yokeBase.frame.size.width / 2
-//        vDpad.origin.y = yokeBase.position.y - yokeBase.frame.size.height / 2
-//
-//        return vDpad
-//    }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for touch in touches {
-//            let location = touch.location(in: self)
-//
-//            if yokeBase.frame.contains(location) {
-//                didTouchYoke = true
-//            } else {
-//                didTouchYoke = false
-//            }
-//        }
-//    }
-    
-    // Unused D-Pad.
-    // Contains code for emitting smoke.
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if didTouchYoke {
-//            for touch in touches {
-//                let location = touch.location(in: self)
-//                let vector = CGVector(dx: location.x - yokeBase.position.x, dy: location.y - yokeBase.position.y)
-//                let angle = atan2(vector.dy, vector.dx)
-//                touchDegrees = angle * CGFloat(180 / Double.pi)
-//
-//                let lengthFromBase = yokeBase.frame.size.height / 2
-//
-//                let xDistance = sin(angle - 1.57079633) * lengthFromBase
-//                let yDistance = cos(angle - 1.57079633) * lengthFromBase
-//
-//                if yokeBase.frame.contains(location) {
-//                    yoke.position = location
-//                } else {
-//                    yoke.position = CGPoint(x: yokeBase.position.x - xDistance, y: yokeBase.position.y + yDistance)
-//                }
-//
-//                if virtualDPad().contains(location) {
-//                    let middleOfCircleX = virtualDPad().origin.x + 75
-//                    let middleOfCircleY = virtualDPad().origin.y + 75
-//                    let lengthOfX = Float(location.x - middleOfCircleX)
-//                    let lengthOfY = Float(location.y - middleOfCircleY)
-//                    direction = SIMD2<Float>(x: lengthOfX, y: lengthOfY)
-//                    direction = normalize(direction)
-//                    let degree = atan2(direction.x, direction.y)
-//                    directionAngle = -CGFloat(degree)
-//                }
-//
-//                if let thrustSmoke = SKEmitterNode(fileNamed: "SmokeThrust") {
-//                    thrustSmoke.position = airplane.anchorPoint
-//                    airplane.addChild(thrustSmoke)
-//                }
-//            }
-//        }
-//    }
-    
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if didTouchYoke {
-//            let moveYokeToCenter = SKAction.move(to: yokeBase.position, duration: 0.1)
-//            moveYokeToCenter.timingMode = .easeOut
-//            yoke.run(moveYokeToCenter)
-//            didTouchYoke = false
-//        }
-//    }
     
 }
