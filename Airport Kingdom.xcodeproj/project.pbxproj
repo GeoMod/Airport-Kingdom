@@ -20,6 +20,7 @@
 		18A4CC4D22D3CD6C0013155B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A4CC4C22D3CD6C0013155B /* Assets.xcassets */; };
 		18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */; };
 		18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8B22C140A500858554 /* GroundImpact.sks */; };
+		18FC4D7E22DA977400A4F542 /* TreeFire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18FC4D7C22DA977400A4F542 /* TreeFire.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		18A4CC4C22D3CD6C0013155B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionTypes.swift; sourceTree = "<group>"; };
 		18E9ED8B22C140A500858554 /* GroundImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundImpact.sks; sourceTree = "<group>"; };
+		18FC4D7C22DA977400A4F542 /* TreeFire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TreeFire.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				1831281422ADDFC900AC54F3 /* SmokeThrust.sks */,
 				1857A6A822BD47DF000E47C6 /* TowerFireExplosion.sks */,
 				18E9ED8B22C140A500858554 /* GroundImpact.sks */,
+				18FC4D7C22DA977400A4F542 /* TreeFire.sks */,
 			);
 			path = "Particle Files";
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1854BD8C2288E15600D580C5 /* Main.storyboard in Resources */,
+				18FC4D7E22DA977400A4F542 /* TreeFire.sks in Resources */,
 				1857A6A922BD47DF000E47C6 /* TowerFireExplosion.sks in Resources */,
 				1854BD832288E15600D580C5 /* GameScene.sks in Resources */,
 				1831281522ADDFC900AC54F3 /* SmokeThrust.sks in Resources */,

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
-    <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14845" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14790.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14799.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,7 +11,7 @@
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Airport_Kingdom" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrK-tw-VDd">
@@ -25,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lives: 3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pGS-Ah-lWz">
-                                <rect key="frame" x="938.5" y="20" width="65.5" height="21"/>
+                                <rect key="frame" x="514.5" y="20" width="65.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ESm-y3-dag"/>
                                 </constraints>
@@ -33,36 +32,57 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5L-fK-ve5">
-                                <rect key="frame" x="954" y="698" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbU-LT-hwl">
+                                <rect key="frame" x="142" y="267" width="316" height="66"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="45"/>
+                                <size key="titleShadowOffset" width="2" height="2"/>
+                                <state key="normal" title="TAP TO START">
+                                    <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapToStartButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Zr2-Xc-pPb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5L-fK-ve5">
+                                <rect key="frame" x="433" y="504" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="aFQ-2t-jrX"/>
+                                    <constraint firstAttribute="height" constant="70" id="cRD-wc-jfW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" backgroundImage="play.circle.fill">
+                                <state key="normal">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="playPauseButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="FKF-CE-IwN"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="c5L-fK-ve5" secondAttribute="trailing" constant="97" id="4wm-Fe-CCS"/>
                             <constraint firstItem="pGS-Ah-lWz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CrK-tw-VDd" secondAttribute="trailing" constant="8" symbolic="YES" id="DM3-tt-ZjV"/>
                             <constraint firstItem="CrK-tw-VDd" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="20" id="Q2U-u9-eTg"/>
+                            <constraint firstItem="VbU-LT-hwl" firstAttribute="centerX" secondItem="4qk-I5-YsI" secondAttribute="centerX" id="cUJ-Zb-oUL"/>
                             <constraint firstItem="pGS-Ah-lWz" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" constant="20" id="jUM-q8-Pz7"/>
+                            <constraint firstItem="VbU-LT-hwl" firstAttribute="centerY" secondItem="4qk-I5-YsI" secondAttribute="centerY" id="s5l-Eh-XGc"/>
                             <constraint firstItem="CrK-tw-VDd" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" constant="20" id="tQ2-rp-BVt"/>
+                            <constraint firstItem="4qk-I5-YsI" firstAttribute="bottom" secondItem="c5L-fK-ve5" secondAttribute="bottom" constant="26" id="uIB-NL-geg"/>
                             <constraint firstItem="4qk-I5-YsI" firstAttribute="trailing" secondItem="pGS-Ah-lWz" secondAttribute="trailing" constant="20" id="xiA-ZJ-dN8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <connections>
                         <outlet property="livesLabel" destination="pGS-Ah-lWz" id="3lu-ky-92S"/>
+                        <outlet property="playPauseButton" destination="c5L-fK-ve5" id="36Y-kB-0a6"/>
                         <outlet property="scoreLabel" destination="CrK-tw-VDd" id="P63-RG-Z3c"/>
+                        <outlet property="tapToStartButtonLabel" destination="VbU-LT-hwl" id="Kxi-xG-bJw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138.8671875" y="115.625"/>
+            <point key="canvasLocation" x="-213.28125" y="104.6875"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="play.circle.fill" width="17" height="17"/>
-    </resources>
 </document>
