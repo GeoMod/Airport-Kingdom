@@ -12,6 +12,7 @@ import SpriteKit
 class GameLevelCreator: SKSpriteNode {
     
     weak var gameScene: GameScene!
+    // Likely needs to be stored in UserDefaults
     var level = 1
     
     func setUpBackground() {
@@ -26,7 +27,6 @@ class GameLevelCreator: SKSpriteNode {
         physicsBody = SKPhysicsBody(texture: texture!, size: size)
         physicsBody?.categoryBitMask = CollisionTypes.runwaysurface.rawValue
         physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        physicsBody?.collisionBitMask = 0
         physicsBody?.isDynamic = false
         
         switch level {

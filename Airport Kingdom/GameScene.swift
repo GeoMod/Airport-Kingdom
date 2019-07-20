@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let runway = GameLevelCreator(imageNamed: "runway")
     let airplane = SKSpriteNode(imageNamed: "airplane")
     let deadTree = SKSpriteNode(imageNamed: "deadTree")
+    let liveTree = SKSpriteNode(imageNamed: "liveTree")
     let treeCluster = SKSpriteNode(imageNamed: "treeCluster")
     
     var airplaneAcceleration = CGVector(dx: 0, dy: 0)
@@ -58,7 +59,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
 //        setUpRunwayEdges()
         setUpGameScene()
-        motionManager.startAccelerometerUpdates()
     }
     
     func setUpGameScene() {
@@ -73,11 +73,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpLiveTree()
     }
     
-    
     func setUpTreeCluster() {
         // These are "fly over". No physics bodies.
         let position = CGPoint(x: runway.position.x + 300, y: runway.position.y + 50)
-        
+
         treeCluster.name = "treeCluster"
         treeCluster.position = position
         treeCluster.zPosition = 0
@@ -90,28 +89,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         deadTree.name = "deadTree"
         deadTree.position = position
         deadTree.zPosition = 0
-        deadTree.physicsBody = SKPhysicsBody(circleOfRadius: deadTree.size.width / 2, center: deadTree.position)
+        deadTree.physicsBody = SKPhysicsBody(circleOfRadius: deadTree.size.width / 2)
         deadTree.physicsBody?.categoryBitMask = CollisionTypes.deadTree.rawValue
-        deadTree.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        deadTree.physicsBody?.collisionBitMask = CollisionTypes.airplane.rawValue
         deadTree.physicsBody?.isDynamic = false
         addChild(deadTree)
     }
     
     func setUpLiveTree() {
-        let node = SKSpriteNode(imageNamed: "liveTree")
         let position = CGPoint(x: treeCluster.position.x - 200, y: treeCluster.position.y + 170)
         
-        node.name = "liveTree"
-        node.scale(to: CGSize(width: 90, height: 90))
-        node.position = position
-        node.zPosition = 0
-        node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2, center: node.position)
-        node.physicsBody?.categoryBitMask = CollisionTypes.liveTree.rawValue
-        node.physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        node.physicsBody?.collisionBitMask = CollisionTypes.airplane.rawValue
-        node.physicsBody?.isDynamic = false
-        addChild(node)
+        liveTree.name = "liveTree"
+        liveTree.scale(to: CGSize(width: 90, height: 90))
+        liveTree.position = position
+        liveTree.zPosition = 0
+        liveTree.physicsBody = SKPhysicsBody(circleOfRadius: liveTree.size.width / 2)
+        liveTree.physicsBody?.categoryBitMask = CollisionTypes.liveTree.rawValue
+        liveTree.physicsBody?.isDynamic = false
+        addChild(liveTree)
     }
     
 //    func setUpRunwayEdges() {
@@ -146,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         airplane.physicsBody = SKPhysicsBody(circleOfRadius: airplane.size.width / 2)
         airplane.physicsBody?.categoryBitMask = CollisionTypes.airplane.rawValue
-        airplane.physicsBody?.contactTestBitMask = CollisionTypes.runwaysurface.rawValue
+        airplane.physicsBody?.contactTestBitMask = CollisionTypes.deadTree.rawValue | CollisionTypes.liveTree.rawValue
         airplane.physicsBody?.collisionBitMask = CollisionTypes.deadTree.rawValue | CollisionTypes.liveTree.rawValue
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
@@ -177,7 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if node.name == "runway" {
             // Consider making the number of points added = the number of seconds remaining on the timer
             score += 100
-//            levelCreator.level += 1
+            levelCreator.level += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
@@ -192,11 +186,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
                 score = 0
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     if let treeFire = SKEmitterNode(fileNamed: "TreeFire") {
                         treeFire.position = node.position
                         self.addChild(treeFire)
-                        // consider removing Tree node after the fire is out.
                     }
                 }
             }

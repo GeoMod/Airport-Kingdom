@@ -29,7 +29,7 @@ class GameViewController: UIViewController {
         playPauseButton.isHidden = true
         playPauseButton.alpha = 0.8
         playPauseButton.tintColor = .white
-        playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+//        playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -58,6 +58,7 @@ class GameViewController: UIViewController {
         isGamePlaying = true
         playPauseButton.isHidden = false
         tapToStartButtonLabel.isHidden = true
+        currentGame.motionManager.startAccelerometerUpdates()
     }
     
     @IBAction func playPauseButtonTapped(_ sender: UIButton) {
