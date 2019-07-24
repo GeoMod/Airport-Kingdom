@@ -15,4 +15,5 @@ enum CollisionTypes: UInt32 {
     case runwaysurface = 8
     case liveTree = 16
     case deadTree = 32
+    case wall = 64
 }

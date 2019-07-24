@@ -22,6 +22,7 @@ class GameViewController: UIViewController {
     var isStartOfLevel = true
     
     var currentGame: GameScene!
+    var levelCreator: GameLevelCreator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +53,7 @@ class GameViewController: UIViewController {
     
     
     @IBAction func tapToStartButton(_ sender: UIButton) {
-        currentGame.addAirplane()
+        currentGame.addChild(currentGame.airplane)
         playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         isStartOfLevel = false
         isGamePlaying = true
@@ -63,7 +64,7 @@ class GameViewController: UIViewController {
     
     @IBAction func playPauseButtonTapped(_ sender: UIButton) {
         if isStartOfLevel {
-            currentGame.addAirplane()
+            currentGame.loadAirplane(at: currentGame.playerStartingPosition)
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         }
         switch isGamePlaying {

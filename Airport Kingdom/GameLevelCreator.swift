@@ -13,32 +13,11 @@ class GameLevelCreator: SKSpriteNode {
     
     weak var gameScene: GameScene!
     // Likely needs to be stored in UserDefaults
-    var level = 1
     
     func setUpBackground() {
         position = CGPoint(x: 512, y: 384)
         blendMode = .replace
         zPosition = -1
-    }
-    
-    func setUpRunway() {
-        name = "runway"
-        
-        physicsBody = SKPhysicsBody(texture: texture!, size: size)
-        physicsBody?.categoryBitMask = CollisionTypes.runwaysurface.rawValue
-        physicsBody?.contactTestBitMask = CollisionTypes.airplane.rawValue
-        physicsBody?.isDynamic = false
-        
-        switch level {
-        case 1:
-            position = CGPoint(x: 300, y: 360)
-        case 2:
-            position = CGPoint(x: 736, y: 385)
-        default:
-            position = CGPoint(x: 300, y: 360)
-        }
-        blendMode = .alpha
-        zPosition = 0
     }
     
 //    func setUpControlTower() {
