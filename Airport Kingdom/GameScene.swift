@@ -82,7 +82,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if letter == "a" {
                     loadAirplane(at: position)
                     playerStartingPosition = position
-                    print("Player starting pos: \(playerStartingPosition)")
                 } else if letter == "r"  {
                     loadRunway(at: position)
                 } else if letter == "d"  {
@@ -156,7 +155,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         airplane.physicsBody?.collisionBitMask = CollisionTypes.deadTree.rawValue | CollisionTypes.liveTree.rawValue
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
-//        addChild(airplane)
     }
     
     func loadWallNode(at position: CGPoint) {
@@ -226,6 +224,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let transition = SKTransition.doorway(withDuration: 1.5)
                 self.view?.presentScene(nextLevel, transition: transition)
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                self.viewController.tapToStartButtonLabel.isHidden = false
+            }
             return
         } else if node.name == "deadTree" || node.name == "liveTree" {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
@@ -250,6 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if lives > 0 {
             lives -= 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.addChild(self.airplane)
                 self.loadAirplane(at: self.playerStartingPosition)
             }
         }

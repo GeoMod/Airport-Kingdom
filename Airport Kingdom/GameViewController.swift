@@ -19,7 +19,6 @@ class GameViewController: UIViewController {
     @IBOutlet weak var tapToStartButtonLabel: UIButton!
     
     var isGamePlaying = false
-    var isStartOfLevel = true
     
     var currentGame: GameScene!
     var levelCreator: GameLevelCreator!
@@ -30,7 +29,6 @@ class GameViewController: UIViewController {
         playPauseButton.isHidden = true
         playPauseButton.alpha = 0.8
         playPauseButton.tintColor = .white
-//        playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -55,7 +53,7 @@ class GameViewController: UIViewController {
     @IBAction func tapToStartButton(_ sender: UIButton) {
         currentGame.addChild(currentGame.airplane)
         playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
-        isStartOfLevel = false
+//        isStartOfLevel = false
         isGamePlaying = true
         playPauseButton.isHidden = false
         tapToStartButtonLabel.isHidden = true
@@ -63,21 +61,17 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func playPauseButtonTapped(_ sender: UIButton) {
-        if isStartOfLevel {
-            currentGame.loadAirplane(at: currentGame.playerStartingPosition)
-            playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
-        }
         switch isGamePlaying {
         case false:
             // Game is paused.
-            playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+            playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
             isGamePlaying.toggle()
             // stop aircraft movement
             // freeze aircraft position
 //            currentGame.airplane.position = currentGame.airplane.position
             // stop timer
         case true:
-            playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+            playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
             isGamePlaying.toggle()
             // start aircraft movement
         }
