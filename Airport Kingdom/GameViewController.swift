@@ -27,8 +27,10 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         playPauseButton.isHidden = true
-        playPauseButton.alpha = 0.8
+        playPauseButton.alpha = 0.7
         playPauseButton.tintColor = .white
+        
+        tapToStartButtonLabel.setTitle("Tap To Start", for: .normal)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -49,32 +51,44 @@ class GameViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // Consider code here for use in level transitions.
+    }
+    
     
     @IBAction func tapToStartButton(_ sender: UIButton) {
-        currentGame.addChild(currentGame.airplane)
-        playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
-//        isStartOfLevel = false
-        isGamePlaying = true
-        playPauseButton.isHidden = false
-        tapToStartButtonLabel.isHidden = true
-        currentGame.motionManager.startAccelerometerUpdates()
+        beginGamePlay()
     }
     
     @IBAction func playPauseButtonTapped(_ sender: UIButton) {
         switch isGamePlaying {
         case false:
-            // Game is paused.
-            playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
-            isGamePlaying.toggle()
-            // stop aircraft movement
-            // freeze aircraft position
-//            currentGame.airplane.position = currentGame.airplane.position
-            // stop timer
+            // Game is paused but we want to start/resume the game.
+            beginGamePlay()
         case true:
+            // Game is running but we want to pause.
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+            tapToStartButtonLabel.setTitle("Paused", for: .normal)
+            tapToStartButtonLabel.isHidden = false
+            view.alpha = 0.5
+            currentGame.airplane.removeFromParent()
+            currentGame.airplane.position = currentGame.playerLastKnownPosition
+            currentGame.motionManager.stopAccelerometerUpdates()
+            // stop timer
             isGamePlaying.toggle()
-            // start aircraft movement
         }
+    }
+    
+    func beginGamePlay() {
+        playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+        playPauseButton.isHidden = false
+        
+        tapToStartButtonLabel.isHidden = true
+        tapToStartButtonLabel.setTitle("Paused", for: .normal)
+        view.alpha = 1.0
+        currentGame.loadAirplane(at: currentGame.playerLastKnownPosition, addToScene: true)
+        currentGame.motionManager.startAccelerometerUpdates()
+        isGamePlaying.toggle()
     }
     
 

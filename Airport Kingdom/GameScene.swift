@@ -30,6 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var direction = SIMD2<Float>(x: 0, y: 0)
     var currentLevel = 2
     var playerStartingPosition = CGPoint()
+    var playerLastKnownPosition = CGPoint()
     var directionAngle: CGFloat = 0.0 {
         didSet {
             if directionAngle != oldValue {
@@ -80,7 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     // Load Wall
                     loadWallNode(at: position)
                 } else if letter == "a" {
-                    loadAirplane(at: position)
+                    loadAirplane(at: position, addToScene: false)
                     playerStartingPosition = position
                 } else if letter == "r"  {
                     loadRunway(at: position)
@@ -146,7 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(runway)
     }
     
-    func loadAirplane(at position: CGPoint) {
+    func loadAirplane(at position: CGPoint, addToScene: Bool) {
         airplane.position = position
         airplane.zPosition = 1
         airplane.physicsBody = SKPhysicsBody(circleOfRadius: airplane.size.width / 2)
@@ -155,6 +156,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         airplane.physicsBody?.collisionBitMask = CollisionTypes.deadTree.rawValue | CollisionTypes.liveTree.rawValue
         airplane.physicsBody?.isDynamic = true
         airplane.physicsBody?.linearDamping = 0.5
+        
+        if addToScene {
+            addChild(airplane)
+        } else {
+            return
+        }
     }
     
     func loadWallNode(at position: CGPoint) {
@@ -225,7 +232,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.view?.presentScene(nextLevel, transition: transition)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                self.viewController.tapToStartButtonLabel.setTitle("Tap To Start", for: .normal)
                 self.viewController.tapToStartButtonLabel.isHidden = false
+                self.viewController.playPauseButton.isHidden = true
             }
             return
         } else if node.name == "deadTree" || node.name == "liveTree" {
@@ -248,12 +257,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         airplane.removeFromParent()
-        if lives > 0 {
+        if lives >= 0 {
             lives -= 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.addChild(self.airplane)
-                self.loadAirplane(at: self.playerStartingPosition)
+                self.loadAirplane(at: self.playerStartingPosition, addToScene: true)
             }
+        } else if lives < 0 {
+            viewController.tapToStartButtonLabel.setTitle("Game Over", for: .normal)
+            viewController.tapToStartButtonLabel.isHidden = false
+            score = 0
+            lives = 3
+            currentLevel = 1
         }
     }
     
@@ -267,6 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         airplaneAcceleration.dx = CGFloat(accelerometerXYZ.y) * -maxPlayerAcceleration
         airplaneAcceleration.dy = CGFloat(accelerometerXYZ.x) * maxPlayerAcceleration
+        
     }
     
     func updatePlayer(_ dt: CFTimeInterval) {
@@ -283,6 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newY = min(size.height, max(0, newY))
         
         airplane.position = CGPoint(x: newX, y: newY)
+        playerLastKnownPosition = airplane.position
         
         let angle = atan2(playerVelocity.dy, playerVelocity.dx)
         airplane.zRotation = angle - 90 * degreesToRadians
