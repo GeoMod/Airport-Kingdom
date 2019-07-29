@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerVelocity = CGVector(dx: 0, dy: 0)
     var lastUpdateTime: CFTimeInterval = 0
     var direction = SIMD2<Float>(x: 0, y: 0)
-    var currentLevel = 2
+    var currentLevel = 1
     var playerStartingPosition = CGPoint()
     var playerLastKnownPosition = CGPoint()
     var directionAngle: CGFloat = 0.0 {
@@ -223,16 +223,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Consider making the number of points added = the number of seconds remaining on the timer
             score += 100
             currentLevel += 1
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            print("CL: \(currentLevel)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
                 self.viewController.currentGame = nextLevel
                 
                 let transition = SKTransition.doorway(withDuration: 1.5)
                 self.view?.presentScene(nextLevel, transition: transition)
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                 self.viewController.tapToStartButtonLabel.setTitle("Tap To Start", for: .normal)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.viewController.tapToStartButtonLabel.isHidden = false
                 self.viewController.playPauseButton.isHidden = true
             }
@@ -257,12 +258,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         airplane.removeFromParent()
-        if lives >= 0 {
+        if lives > 0 {
             lives -= 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.loadAirplane(at: self.playerStartingPosition, addToScene: true)
             }
-        } else if lives < 0 {
+        } else if lives == 0 {
             viewController.tapToStartButtonLabel.setTitle("Game Over", for: .normal)
             viewController.tapToStartButtonLabel.isHidden = false
             score = 0

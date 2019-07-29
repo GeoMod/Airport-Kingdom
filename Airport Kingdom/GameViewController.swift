@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     var isGamePlaying = false
     
     var currentGame: GameScene!
-    var levelCreator: GameLevelCreator!
+//    var levelCreator: GameLevelCreator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
