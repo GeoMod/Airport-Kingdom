@@ -22,6 +22,7 @@
 		18A4CC4D22D3CD6C0013155B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A4CC4C22D3CD6C0013155B /* Assets.xcassets */; };
 		18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */; };
 		18E9ED8D22C140A500858554 /* GroundImpact.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ED8B22C140A500858554 /* GroundImpact.sks */; };
+		18F42BDA22F24ECB00B687BC /* ScoreBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F42BD922F24ECB00B687BC /* ScoreBoard.swift */; };
 		18FC4D7E22DA977400A4F542 /* TreeFire.sks in Resources */ = {isa = PBXBuildFile; fileRef = 18FC4D7C22DA977400A4F542 /* TreeFire.sks */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		18A4CC4C22D3CD6C0013155B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionTypes.swift; sourceTree = "<group>"; };
 		18E9ED8B22C140A500858554 /* GroundImpact.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GroundImpact.sks; sourceTree = "<group>"; };
+		18F42BD922F24ECB00B687BC /* ScoreBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreBoard.swift; sourceTree = "<group>"; };
 		18FC4D7C22DA977400A4F542 /* TreeFire.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TreeFire.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 				1854BD802288E15600D580C5 /* AppDelegate.swift */,
 				18E2FD6E22BB18BE007312E8 /* CollisionTypes.swift */,
 				187329FC22A997D20066906A /* HelperMethods.swift */,
+				18F42BD922F24ECB00B687BC /* ScoreBoard.swift */,
 				18173C1F22B29AAC006CB553 /* GameLevelCreator.swift */,
 				1854BD862288E15600D580C5 /* GameScene.swift */,
 				1854BD882288E15600D580C5 /* GameViewController.swift */,
@@ -195,6 +198,7 @@
 				1854BD892288E15600D580C5 /* GameViewController.swift in Sources */,
 				18E2FD6F22BB18BE007312E8 /* CollisionTypes.swift in Sources */,
 				187329FD22A997D20066906A /* HelperMethods.swift in Sources */,
+				18F42BDA22F24ECB00B687BC /* ScoreBoard.swift in Sources */,
 				1854BD812288E15600D580C5 /* AppDelegate.swift in Sources */,
 				18173C2022B29AAC006CB553 /* GameLevelCreator.swift in Sources */,
 			);

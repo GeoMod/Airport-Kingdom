@@ -12,7 +12,7 @@ import SpriteKit
 class GameLevelCreator: SKSpriteNode {
     
     weak var gameScene: GameScene!
-    // Likely needs to be stored in UserDefaults
+    weak var viewController: GameViewController!
     
     func setUpBackground() {
         position = CGPoint(x: 512, y: 384)

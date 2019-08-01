@@ -19,6 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let background = GameLevelCreator(imageNamed: "BackgroundLvl1")
     let airplane = SKSpriteNode(imageNamed: "airplane") // Global because it is referenced later in this file.
+    var player = Player()
     
     var airplaneAcceleration = CGVector(dx: 0, dy: 0)
     let maxPlayerSpeed: CGFloat = 200
@@ -28,9 +29,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerVelocity = CGVector(dx: 0, dy: 0)
     var lastUpdateTime: CFTimeInterval = 0
     var direction = SIMD2<Float>(x: 0, y: 0)
-    var currentLevel = 1
+    
     var playerStartingPosition = CGPoint()
     var playerLastKnownPosition = CGPoint()
+    
     var directionAngle: CGFloat = 0.0 {
         didSet {
             if directionAngle != oldValue {
@@ -38,18 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let action = SKAction.rotate(toAngle: directionAngle, duration: 0.1, shortestUnitArc: true)
                 run(action)
             }
-        }
-    }
-    
-    var score = 0 {
-        didSet {
-            viewController.scoreLabel.text = "Score: \(score)"
-        }
-    }
-    
-    var lives = 3 {
-        didSet {
-            viewController.livesLabel.text = "Lives: \(lives)"
         }
     }
     
@@ -61,12 +51,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.setUpBackground()
         addChild(background)
         
-        load(level: currentLevel)
+        load(level: player.currentLevel)
     }
     
     func load(level: Int) {
-        guard let levelURL = Bundle.main.url(forResource: "level" + String(currentLevel), withExtension: "txt") else {
-                fatalError("Could not FIND current level.")
+        guard let levelURL = Bundle.main.url(forResource: "level" + String(player.currentLevel), withExtension: "txt") else {
+                fatalError("Could not find current level.")
             }
         guard let levelString = try? String(contentsOf: levelURL) else {
                 fatalError("Could not LOAD Level")
@@ -218,12 +208,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
+    // MARK: - Updating Player Score & Lives
     func playerCollided(with node: SKNode) {
         if node.name == "runway" {
             // Consider making the number of points added = the number of seconds remaining on the timer
-            score += 100
-            currentLevel += 1
-            print("CL: \(currentLevel)")
+            player.score += 100
+            player.update(score: player.score)
+//            player.currentLevel += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
@@ -242,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
-                score = 0
+                player.score = 0
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     if let treeFire = SKEmitterNode(fileNamed: "TreeFire") {
                         treeFire.position = node.position
@@ -254,21 +246,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let groundImpact = SKEmitterNode(fileNamed: "GroundImpact") {
                 groundImpact.position = airplane.position
                 addChild(groundImpact)
-                score = 0
+                player.score = 0
             }
         }
         airplane.removeFromParent()
-        if lives > 0 {
-            lives -= 1
+        if player.lives > 0 {
+            player.lives -= 1
+            print("Lives: \(player.lives)")
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.loadAirplane(at: self.playerStartingPosition, addToScene: true)
             }
-        } else if lives == 0 {
+        } else if player.lives == 0 {
             viewController.tapToStartButtonLabel.setTitle("Game Over", for: .normal)
             viewController.tapToStartButtonLabel.isHidden = false
-            score = 0
-            lives = 3
-            currentLevel = 1
+            player.score = 0
+            player.lives = 3
+            player.currentLevel = 1
         }
     }
     
