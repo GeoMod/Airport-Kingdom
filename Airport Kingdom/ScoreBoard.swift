@@ -6,23 +6,32 @@
 //  Copyright © 2019 Impulse Coupled Dev. All rights reserved.
 //
 
-//import Foundation
 
-protocol AdjustScore {
+protocol AdjustScoreDelegate {
     func update(score: Int)
+    func update(level: Int)
+    func update(lives: Int)
+    
+    var currentLevel: Int { get set}
+    var playerLives: Int { get set }
+    var currentScore: Int { get set }
 }
 
-class Player: AdjustScore {
+class Player: AdjustScoreDelegate {
     var currentLevel = 1
-    var lives = 3
-    var score = 0
-    var name: String?
+    var playerLives = 3
+    var currentScore = 0
+        
+    func update(level: Int) {
+        currentLevel += level
+    }
     
-    let vc = GameViewController()
+    func update(lives: Int) {
+        playerLives += lives
+    }
     
     func update(score: Int) {
-        // Update score count and score label.
-        vc.scoreLabel.text = "Score: \(score)"
+        currentScore += score
     }
 }
 

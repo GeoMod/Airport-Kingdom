@@ -16,10 +16,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     weak var viewController: GameViewController!
     var levelCreator = GameLevelCreator()
     var motionManager = CMMotionManager()
+    let player = Player()
+    var playerDelegate: AdjustScoreDelegate!
     
     let background = GameLevelCreator(imageNamed: "BackgroundLvl1")
     let airplane = SKSpriteNode(imageNamed: "airplane") // Global because it is referenced later in this file.
-    var player = Player()
     
     var airplaneAcceleration = CGVector(dx: 0, dy: 0)
     let maxPlayerSpeed: CGFloat = 200
@@ -51,6 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.setUpBackground()
         addChild(background)
         
+        playerDelegate = player
         load(level: player.currentLevel)
     }
     
@@ -213,9 +215,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func playerCollided(with node: SKNode) {
         if node.name == "runway" {
             // Consider making the number of points added = the number of seconds remaining on the timer
-            player.score += 100
-            player.update(score: player.score)
-//            player.currentLevel += 1
+            playerDelegate.update(score: 100)
+            playerDelegate.update(level: 1)
+            viewController.scoreLabel.text = "Score: \(playerDelegate.currentScore)"
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let nextLevel = GameScene(size: self.size)
                 nextLevel.viewController = self.viewController
@@ -234,7 +237,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let fireExplosion = SKEmitterNode(fileNamed: "TowerFireExplosion") {
                 fireExplosion.position = airplane.position
                 addChild(fireExplosion)
-                player.score = 0
+                playerDelegate.update(score: -100)
+                viewController.scoreLabel.text = "Score: \(playerDelegate.currentScore)"
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     if let treeFire = SKEmitterNode(fileNamed: "TreeFire") {
                         treeFire.position = node.position
@@ -246,22 +251,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let groundImpact = SKEmitterNode(fileNamed: "GroundImpact") {
                 groundImpact.position = airplane.position
                 addChild(groundImpact)
-                player.score = 0
+                playerDelegate.update(score: -100)
+                viewController.scoreLabel.text = "Score: \(playerDelegate.currentScore)"
             }
         }
         airplane.removeFromParent()
-        if player.lives > 0 {
-            player.lives -= 1
-            print("Lives: \(player.lives)")
+        if player.playerLives > 0 {
+            playerDelegate.update(lives: -1)
+            viewController.livesLabel.text = "Lives: \(playerDelegate.playerLives)"
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.loadAirplane(at: self.playerStartingPosition, addToScene: true)
             }
-        } else if player.lives == 0 {
+        } else if player.playerLives == 0 {
             viewController.tapToStartButtonLabel.setTitle("Game Over", for: .normal)
             viewController.tapToStartButtonLabel.isHidden = false
-            player.score = 0
-            player.lives = 3
+            player.currentScore = 0
+            player.playerLives = 3
             player.currentLevel = 1
+            
+            // Reset lives and score labels.
+            viewController.scoreLabel.text = "Score: \(playerDelegate.currentScore)"
+            viewController.livesLabel.text = "Lives: \(playerDelegate.playerLives)"
         }
     }
     
