@@ -21,7 +21,6 @@ class GameViewController: UIViewController {
     var isGamePlaying = false
     
     var currentGame: GameScene!
-//    var levelCreator: GameLevelCreator!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +73,9 @@ class GameViewController: UIViewController {
             currentGame.airplane.removeFromParent()
             currentGame.airplane.position = currentGame.playerLastKnownPosition
             currentGame.motionManager.stopAccelerometerUpdates()
-            // stop timer
             isGamePlaying.toggle()
+            
+            // Implement timer...then stop timer here.
         }
     }
     

@@ -227,6 +227,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let transition = SKTransition.doorway(withDuration: 1.5)
                 self.view?.presentScene(nextLevel, transition: transition)
                 self.viewController.tapToStartButtonLabel.setTitle("Tap To Start", for: .normal)
+                // Ensures game state is maintained at the scene transition.
+                self.viewController.isGamePlaying = false
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.viewController.tapToStartButtonLabel.isHidden = false
